@@ -2,6 +2,7 @@
 using HauntedHouse.Core.Dto;
 using HauntedHouse.Core.ServiceInterface;
 using HauntedHouse.Data;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -56,29 +57,26 @@ namespace HauntedHouse.ApplicationServices.Services
                 _fileServices.UploadFilesToDatabase(dto, hunter);
             }
 
-            await _context.hunters.AddAsync(hunter);
+            await _context.Hunters.AddAsync(hunter);
             await _context.SaveChangesAsync();
 
             return hunter;
         }
 
-        public async Task<hunter> Update(hunterDto dto)
+        public async Task<Hunter> Update(HunterDto dto)
         {
-            hunter hunter = new hunter();
+            Hunter hunter = new Hunter();
 
             // set by service
             hunter.ID = dto.ID;
-            hunter.hunterHealth = dto.hunterHealth;
-            hunter.hunterXP = dto.hunterXP;
-            hunter.hunterXPNextLevel = dto.hunterXPNextLevel;
-            hunter.hunterLevel = dto.hunterLevel;
-            hunter.hunterStatus = (Core.Domain.hunterStatus)dto.hunterStatus;
-            hunter.hunterWasBorn = dto.hunterWasBorn;
-            hunter.hunterDied = DateTime.Parse("01/01/9999 00:00:00");
+            hunter.HunterHealth = dto.HunterHealth;
+            hunter.HunterXP = dto.HunterXP;
+            hunter.HunterXPNextLevel = dto.HunterXPNextLevel;
+            hunter.HunterLevel = dto.HunterLevel;
+            hunter.HunterStatus = (Core.Domain.HunterStatus)dto.HunterStatus;
 
             //set by user
-            hunter.hunterName = dto.hunterName;
-            hunter.hunterType = (Core.Domain.hunterType)dto.hunterType;
+            hunter.HunterName = dto.HunterName;
             hunter.PrimaryAttackName = dto.PrimaryAttackName;
             hunter.PrimaryAttackPower = dto.PrimaryAttackPower;
             hunter.SecondaryAttackName = dto.SecondaryAttackName;
@@ -95,17 +93,17 @@ namespace HauntedHouse.ApplicationServices.Services
             {
                 _fileServices.UploadFilesToDatabase(dto, hunter);
             }
-            _context.hunters.Update(hunter);
+            _context.Hunters.Update(hunter);
             await _context.SaveChangesAsync();
 
             return hunter;
         }
 
-        public async Task<hunter> Delete(Guid id)
+        public async Task<Hunter> Delete(Guid id)
         {
-            var result = await _context.hunters
+            var result = await _context.Hunters
                 .FirstOrDefaultAsync(x => x.ID == id);
-            _context.hunters.Remove(result);
+            _context.Hunters.Remove(result);
             await _context.SaveChangesAsync();
 
             return result;

@@ -1,20 +1,8 @@
-﻿using HauntedHouse.Core.Domain;
-using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace HauntedHouse.Core.Dto
+﻿namespace HauntedHouse.Models.Hunters
 {
-    public enum HunterStatus
+    public class HunterDeleteViewModel
     {
-        Dead, Alive
-    }
-    public class HunterDto
-    {
-        public Guid ID { get; set; }
+        public Guid? ID { get; set; }
         public string HunterName { get; set; }
         public int HunterHealth { get; set; }
         public int HunterXP { get; set; }
@@ -28,9 +16,8 @@ namespace HauntedHouse.Core.Dto
         public int SpecialAttackPower { get; set; }
         public string SpecialAttackName { get; set; }
 
-        public List<IFormFile> Files { get; set; }
-        public IEnumerable<FileToDatabaseDto> Image { get; set; } = new List<FileToDatabaseDto>();
-
+        public List<HunterImageViewModel> Image { get; set; } = new List<HunterImageViewModel>();
+       
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
     }

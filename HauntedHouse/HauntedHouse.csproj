@@ -6,4 +6,10 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\HauntedHouse.ApplicationServices\HauntedHouse.ApplicationServices.csproj" />
+    <ProjectReference Include="..\HauntedHouse.Core\HauntedHouse.Core.csproj" />
+    <ProjectReference Include="..\HauntedHouse.Data\HauntedHouse.Data.csproj" />
+  </ItemGroup>
+
 </Project>
