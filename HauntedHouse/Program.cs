@@ -1,9 +1,7 @@
-
-
 using HauntedHouse.ApplicationServices.Services;
-using HauntedHouse.Core.Domain;
 using HauntedHouse.Core.ServiceInterface;
 using HauntedHouse.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace HauntedHouse
 {
@@ -15,10 +13,10 @@ namespace HauntedHouse
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
-            builder.Services.AddScoped<HuntersServices, HuntersServices>();
+            builder.Services.AddScoped<IHuntersServices, HuntersServices>();
             builder.Services.AddScoped<IFileServices, FileServices>();
             builder.Services.AddDbContext<HunterContext>(
-                options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+            options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

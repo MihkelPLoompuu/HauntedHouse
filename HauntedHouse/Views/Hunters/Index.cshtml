@@ -3,7 +3,10 @@
 @{
     int rowNumber = 1;
 }
-<div><a asp-action="Edit" asp-controller="Hunter" type="submit" class="btn btn-primary">Start Mission</a></div>
+<div>
+    <a asp-action="Add" asp-controller="Hunters" type="submit" class="btn btn-primary">Start Mission</a>
+    <a asp-action="Create" asp-controller="Hunters" class="btn btn-primary">Create new Hunters</a>
+</div>
 @*User can start shop using ADD function, to obtain new titan. In controller, this is called "PlayerSoloMission"*@
 
 <div class="h1">Your Hunter:</div>
@@ -14,7 +17,7 @@
                 <th scope="col">#</th>
                 <th scope="col">Name</th>
                 <th scope="col">Level</th>
-                <th scope="col">Category</th>
+                <th scope="col">Image</th>
             </tr>
         </thead>
         <tbody>

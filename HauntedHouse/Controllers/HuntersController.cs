@@ -77,13 +77,13 @@ namespace HauntedHouse.Controllers
             return RedirectToAction("Index", vm);
         }
         [HttpGet]
-        public async Task<IActionResult> Details(Guid id /*, Guid ref*/)
+        public async Task<IActionResult> Details(Guid id)
         {
             var hunter = await _huntersServices.DetailsAsync(id);
 
             if (hunter == null)
             {
-                return NotFound(); // <- TODO; custom partial view with message, hunter is not located
+                return NotFound();
             }
 
             var images = await _context.FileToDatabase
