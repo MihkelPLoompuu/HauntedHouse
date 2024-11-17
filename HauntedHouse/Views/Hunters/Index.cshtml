@@ -15,6 +15,7 @@
         <thead>
             <tr>
                 <th scope="col">#</th>
+                <th scope="col">ID</th>
                 <th scope="col">Name</th>
                 <th scope="col">Level</th>
                 <th scope="col">Image</th>
@@ -25,14 +26,15 @@
             {
                 <tr>
                     <td>@rowNumber</td>
+                    <td>@guy.ID</td>
                     <td>@guy.HunterName</td>
                     <td>@guy.HunterLevel</td>
                     <td>
-                        <a asp-action="details" asp-controller="hunters" asp-route-id="@guy.ID" class="ShopDetails"></a>
+                        <a asp-action="Details" asp-controller="Hunters" asp-route-id="@guy.ID" class="Details"></a>
                         <br />
-                        <a asp-action="update" asp-controller="hunters" asp-route-id="@guy.ID" class="ShopConfigure"></a>
+                        <a asp-action="Update" asp-controller="Hunters" asp-route-id="@guy.ID" class="Update"></a>
                         <br />
-                        <a asp-action="Delete" asp-controller="hunters" asp-route-id="@guy.ID" class="ShopDelete"></a>
+                        <a asp-action="Delete" asp-controller="Hunters" asp-route-id="@guy.ID" class="Delete"></a>
                     </td>
                 </tr>
                 rowNumber++;
