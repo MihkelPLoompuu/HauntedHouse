@@ -72,5 +72,9 @@
 
     </dl>
 
-    <a asp-action="Index" asp-controller="titans" class="btn btn-secondary">Index</a>
+    <form asp-action="DeleteConfirmation">
+        <input type="hidden" asp-for="ID" />
+        <input type="submit" value="Delete" class="btn btn-danger" />
+        <a asp-action="Index" asp-controller="hunters" class="btn btn-secondary">Back</a>
+    </form>
 </div>

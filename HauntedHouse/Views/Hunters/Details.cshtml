@@ -29,8 +29,7 @@
             <label asp-for="HunterLevel" class="col-sm-2 col-form-label"></label>
             @Html.DisplayFor(model => model.HunterLevel)
         </div>
-
-        @* Todo: combine titanxp and titanxpnext level into one progress bar  *@
+      
         <div class="form-group row">
             <label asp-for="HunterXP" class="col-sm-2 col-form-label"></label>
             @Html.DisplayFor(model => model.HunterXP)
@@ -40,7 +39,6 @@
             @Html.DisplayFor(model => model.HunterXPNextLevel)
         </div>
 
-        @* Display type with image instead *@
         <div class="form-group row">
             <label asp-for="HunterXPNextLevel" class="col-sm-2 col-form-label"></label>
             @Html.DisplayFor(model => model.HunterXPNextLevel)
@@ -74,5 +72,5 @@
 
     </dl>
 
-    <a asp-action="Index" asp-controller="titans" class="btn btn-secondary">Index</a>
+    <a asp-action="Index" asp-controller="hunters" class="btn btn-secondary">Back</a>
 </div>

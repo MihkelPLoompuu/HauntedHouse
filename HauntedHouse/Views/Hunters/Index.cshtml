@@ -7,7 +7,6 @@
     <a asp-action="Add" asp-controller="Hunters" type="submit" class="btn btn-primary">Start Mission</a>
     <a asp-action="Create" asp-controller="Hunters" class="btn btn-primary">Create new Hunters</a>
 </div>
-@*User can start shop using ADD function, to obtain new titan. In controller, this is called "PlayerSoloMission"*@
 
 <div class="h1">Your Hunter:</div>
 <form method="post">
@@ -22,19 +21,19 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var guy in Model)
+            @foreach (var hunter in Model)
             {
                 <tr>
                     <td>@rowNumber</td>
-                    <td>@guy.ID</td>
-                    <td>@guy.HunterName</td>
-                    <td>@guy.HunterLevel</td>
+                    <td>@hunter.ID</td>
+                    <td>@hunter.HunterName</td>
+                    <td>@hunter.HunterLevel</td>
                     <td>
-                        <a asp-action="Details" asp-controller="Hunters" asp-route-id="@guy.ID" class="Details"></a>
+                        <a asp-action="details" asp-controller="hunters" asp-route-id="@hunter.ID" class="btn btn-info">HunterDetails</a>
                         <br />
-                        <a asp-action="Update" asp-controller="Hunters" asp-route-id="@guy.ID" class="Update"></a>
+                        <a asp-action="update" asp-controller="hunters" asp-route-id="@hunter.ID" class="btn btn-info">HunterConfigure</a>
                         <br />
-                        <a asp-action="Delete" asp-controller="Hunters" asp-route-id="@guy.ID" class="Delete"></a>
+                        <a asp-action="delete" asp-controller="hunters" asp-route-id="@hunter.ID" class="btn btn-info">HunterDelete</a>
                     </td>
                 </tr>
                 rowNumber++;

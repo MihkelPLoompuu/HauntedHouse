@@ -68,14 +68,14 @@
             @foreach (var image in Model.Image)
             {
                 <partial name="_Images" model="image"></partial>
-                <input asp-action="removeImage" asp-controller="titans" asp-route-id="@image.ImageID" type="submit" class="btn btn-danger" value="Delete image" />
+                <input asp-action="removeImage" asp-controller="hunters" asp-route-id="@image.ImageID" type="submit" class="btn btn-danger" value="Delete image" />
             }
         </div>
         @{
             var breakpoint = "";
         }
-        <input asp-action="Update" asp-controller="Titans" type="submit"
-               class="btn btn-primary" value="Change this titan" />
+        <input asp-action="Update" asp-controller="Hunters" type="submit"
+               class="btn btn-primary" value="Change" />
         <a asp-action="index" class="btn btn-primary">Cancel</a>
 
     </form>
