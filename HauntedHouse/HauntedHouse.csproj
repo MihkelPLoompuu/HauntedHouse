@@ -21,4 +21,9 @@
     <ProjectReference Include="..\HauntedHouse.Data\HauntedHouse.Data.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\lib\gamesset\image\site\" />
+    <Folder Include="wwwroot\lib\gamesset\image\premadehunters\NewFolder\" />
+  </ItemGroup>
+
 </Project>

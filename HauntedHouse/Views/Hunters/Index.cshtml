@@ -2,41 +2,67 @@
 
 @{
     int rowNumber = 1;
+    int currentRow = 1;
+    int currentTile = 1;
+    int tilesInRow = 6;
 }
 <div>
     <a asp-action="Add" asp-controller="Hunters" type="submit" class="btn btn-primary">Start Mission</a>
     <a asp-action="Create" asp-controller="Hunters" class="btn btn-primary">Create new Hunters</a>
 </div>
-
 <div class="h1">Your Hunter:</div>
 <form method="post">
     <table class="table table-hover">
         <thead>
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">ID</th>
-                <th scope="col">Name</th>
-                <th scope="col">Level</th>
-                <th scope="col">Image</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var hunter in Model)
+            @if (!Model.Any())
             {
                 <tr>
-                    <td>@rowNumber</td>
-                    <td>@hunter.ID</td>
-                    <td>@hunter.HunterName</td>
-                    <td>@hunter.HunterLevel</td>
-                    <td>
-                        <a asp-action="details" asp-controller="hunters" asp-route-id="@hunter.ID" class="btn btn-info">HunterDetails</a>
-                        <br />
-                        <a asp-action="update" asp-controller="hunters" asp-route-id="@hunter.ID" class="btn btn-info">HunterConfigure</a>
-                        <br />
-                        <a asp-action="delete" asp-controller="hunters" asp-route-id="@hunter.ID" class="btn btn-info">HunterDelete</a>
-                    </td>
+                    <th scope="col" colspan="4">
+                        <span>#playernamehere#</span>
+                        <span class="gXmc">does not have any hunters yet.</span>
+                    </th>
                 </tr>
+            }
+            else
+            {
+                <tr>
+                    <th scope="col">Hunter</th>
+                    <th scope="col">Admin Actions</th>
+                </tr>
+            }
+        </thead>
+        <tbody>
+            @if (!Model.Any())
+            {
+                <table class="HIT">
+                    <tr><td colspan="2">HunterName</td></tr>
+                    <tr><td colspan="2"><img src="~/lib/gameasset/image/premadehunters/Doc.png" /></td></tr>
+                    <tr><td>Level</td></tr>
+                    <tr><td colspan="2">XPBAROBJECT</td></tr>
+                </table>
                 rowNumber++;
+            }
+            else
+            {
+                @foreach (var hunter in Model)
+                {
+                <td>
+                    <table class="HIT">
+                        <tr><td colspan="2">@hunter.HunterName</td></tr>
+                        <tr><td colspan="2"><img width="256" src="~/lib/gameasset/image/premadehunters/NotImplementedImage.png" /></td></tr>
+                        <tr><td>@hunter.HunterLevel</td></tr>
+                        <tr><td colspan="2">XPBAROBJECT</td></tr>
+                    </table>
+                </td>
+                <td>
+                    <a asp-action="details" asp-controller="hunters" asp-route-id="@hunter.ID" class="btn btn-info">HunterDetails</a>
+                    <br />
+                    <a asp-action="update" asp-controller="hunters" asp-route-id="@hunter.ID" class="btn btn-info">HunterConfigure</a>
+                    <br />
+                    <a asp-action="delete" asp-controller="hunters" asp-route-id="@hunter.ID" class="btn btn-info">HunterDelete</a>
+                </td>
+                    rowNumber++;
+                }         
             }
         </tbody>
     </table>

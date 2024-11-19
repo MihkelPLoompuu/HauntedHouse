@@ -1,0 +1,16 @@
+﻿
+.h1HH{
+    color:red;
+    text-shadow: 0px 4px 8px red;
+}
+
+body {
+    background-color: #303030;
+}
+p, div {
+    color:aliceblue;
+}
+.HIT {
+    border: 1px solid;
+    border-color: rgb(77, 237, 255);
+}
