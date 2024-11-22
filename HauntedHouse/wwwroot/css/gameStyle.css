@@ -17,3 +17,9 @@ p, div {
 .TColor{
     color:aliceblue;
 }
+.HColor {
+    background-image: linear-gradient(black,red);
+}
+.HColor2 {
+    background-image: linear-gradient(red,black);
+}
