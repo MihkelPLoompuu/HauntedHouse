@@ -12,22 +12,15 @@
 </div>
 <div class="h1">Your Hunter:</div>
 <form method="post">
-    <table class="table table-hover">
+    <table class="table table-hover" id="tableWH">
         <thead>
             @if (!Model.Any())
             {
                 <tr>
-                    <th scope="col" colspan="4">
+                    <th scope="col" colspan="4" class="TColor">
                         <span>#playernamehere#</span>
-                        <span class="gXmc">does not have any hunters yet.</span>
+                        <span>does not have any hunters yet.</span>
                     </th>
-                </tr>
-            }
-            else
-            {
-                <tr class="TColor">
-                    <th scope="col">Hunter</th>
-                    <th scope="col">Admin Actions</th>
                 </tr>
             }
         </thead>
@@ -45,24 +38,26 @@
             else
             {
                 @foreach (var hunter in Model)
-                {
+                {                     
                 <td>
                     <table class="HIT">
+                        <div>Hunter</div>
                         <tr class="TColor"><td colspan="2">@hunter.HunterName</td></tr>
                         <tr class="TColor"><td colspan="2"><img width="256" src="~/lib/gamesset/image/premadehunters/NotImplementedImage.png" /></td></tr>
                         <tr class="TColor"><td>@hunter.HunterLevel</td></tr>
                         <tr class="TColor"><td colspan="2">XPBAROBJECT</td></tr>
                     </table>
-                </td>
-                <td>
-                    <a asp-action="details" asp-controller="hunters" asp-route-id="@hunter.ID" class="btn btn-info">HunterDetails</a>
-                    <br />
-                    <a asp-action="update" asp-controller="hunters" asp-route-id="@hunter.ID" class="btn btn-info">HunterConfigure</a>
-                    <br />
-                    <a asp-action="delete" asp-controller="hunters" asp-route-id="@hunter.ID" class="btn btn-info">HunterDelete</a>
+                    <div class="Action-btn">
+                        Admin Actions
+                        <br />
+                        <a asp-action="details" asp-controller="hunters" asp-route-id="@hunter.ID" class="btn btn-info">HunterDetails</a>
+                        <a asp-action="update" asp-controller="hunters" asp-route-id="@hunter.ID" class="btn btn-info">HunterConfigure</a>
+                        <br />
+                        <a asp-action="delete" asp-controller="hunters" asp-route-id="@hunter.ID" class="btn btn-info">HunterDelete</a>
+                    </div>
                 </td>
                     rowNumber++;
-                }         
+                }
             }
         </tbody>
     </table>
