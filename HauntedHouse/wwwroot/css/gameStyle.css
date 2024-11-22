@@ -5,7 +5,7 @@
 }
 
 body {
-    background-color: #303030;
+    background-color: #242424;
 }
 p, div {
     color:aliceblue;
@@ -13,4 +13,7 @@ p, div {
 .HIT {
     border: 3px solid;
     border-color: rgb(77, 237, 255);
+}
+.TColor{
+    color:aliceblue;
 }
