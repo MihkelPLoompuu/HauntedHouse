@@ -1,16 +1,3 @@
 ﻿@model HauntedHouse.Models.Hunters.HunterImageViewModel
 
-<div>
-    @if (!Model.Image.Any())
-    {
-        <p>"No images are found"</p>
-    }
-</div>
-@if (Model.ImageTitle == "hunter.png")
-{
-    <img width="256" class="card-img-top" src="@Model.Image" asp-append-version="true" />
-}
-else
-{
-    <img src="~/lib/gameasset/image/premadehunters/NotImplementedImage.png" />
-}
+<img width="256" class="card-img-top" src="@Model.Image" asp-append-version="true" />

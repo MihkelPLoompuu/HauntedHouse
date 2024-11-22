@@ -28,6 +28,16 @@ namespace HauntedHouse.Controllers
                     ID = x.ID,
                     HunterName = x.HunterName,
                     HunterLevel = x.HunterLevel,
+                    Image = (List<HunterImageViewModel>)_context.FileToDatabase
+                       .Where(t => t.HunterID == x.ID)
+                       .Select(z => new HunterImageViewModel
+                       {
+                           HunterID = z.ID,
+                           ImageID = z.ID,
+                           ImageData = z.ImageData,
+                           ImageTitle = z.ImageTitle,
+                           Image = string.Format("data:image/gif;base64,{0}", Convert.ToBase64String(z.ImageData))
+                       })
                 });
             return View(resultingInventory);
         }
