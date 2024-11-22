@@ -19,6 +19,7 @@
         public string SecondaryAttackName { get; set; }
         public int SpecialAttackPower { get; set; }
         public string SpecialAttackName { get; set; }
+        public List<HunterImageViewModel> Image { get; set; } = new List<HunterImageViewModel>();
 
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }

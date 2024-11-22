@@ -29,7 +29,7 @@
             {
                 <table class="HIT">
                     <tr><td colspan="2">HunterName</td></tr>
-                    <tr><td colspan="2"><img src="~/lib/gamesset/image/premadehunters/Doc.png" /></td></tr>
+                    <tr><td colspan="2"><img src="~/lib/gamesset/image/premadehunters/Hunter.png" /></td></tr>
                     <tr><td>Level</td></tr>
                     <tr><td colspan="2">XPBAROBJECT</td></tr>
                 </table>
@@ -43,7 +43,14 @@
                     <table class="HIT">
                         <div>Hunter</div>
                         <tr class="TColor"><td colspan="2">@hunter.HunterName</td></tr>
-                        <tr class="TColor"><td colspan="2"><img width="256" src="~/lib/gamesset/image/premadehunters/NotImplementedImage.png" /></td></tr>
+                        <tr class="TColor">
+                            <td colspan="2">
+                                    @foreach (var image in hunter.Image)
+                                    {
+                                    <partial name="_ImageIndex" model="image" />
+                                    }
+                            </td>
+                        </tr>
                         <tr class="TColor"><td>@hunter.HunterLevel</td></tr>
                         <tr class="TColor"><td colspan="2">XPBAROBJECT</td></tr>
                     </table>
