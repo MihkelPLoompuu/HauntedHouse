@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace HauntedHouse.Data.Migrations
 {
-    [DbContext(typeof(HunterContext))]
+    [DbContext(typeof(HauntedHouseContext))]
     partial class HunterContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

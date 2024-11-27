@@ -13,10 +13,10 @@ namespace HauntedHouse.ApplicationServices.Services
 {
     public class HuntersServices : IHuntersServices
     {
-        private readonly HunterContext _context;
+        private readonly HauntedHouseContext _context;
         private readonly IFileServices _fileServices;
 
-        public HuntersServices(HunterContext context, IFileServices fileServices)
+        public HuntersServices(HauntedHouseContext context, IFileServices fileServices)
         {
             _context = context;
             _fileServices = fileServices;

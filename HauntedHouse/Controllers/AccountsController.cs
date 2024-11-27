@@ -11,9 +11,9 @@ namespace HauntedHouse.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _SignInManager;
-        private readonly HunterContext _context;
+        private readonly HauntedHouseContext _context;
 
-        public AccountsController(UserManager<ApplicationUser> userManager,SignInManager<ApplicationUser> signInManager, HunterContext context)
+        public AccountsController(UserManager<ApplicationUser> userManager,SignInManager<ApplicationUser> signInManager, HauntedHouseContext context)
         {
             _userManager = userManager;
             _SignInManager = signInManager;

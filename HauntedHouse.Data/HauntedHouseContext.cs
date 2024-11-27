@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace HauntedHouse.Data
 {
-    public class HunterContext : DbContext
+    public class HauntedHouseContext : DbContext
     {
-        public HunterContext(DbContextOptions<HunterContext> options) : base(options) { }
+        public HauntedHouseContext(DbContextOptions<HauntedHouseContext> options) : base(options) { }
         public DbSet<Hunter> Hunters { get; set; }
         public DbSet<FileToDatabase> FileToDatabase { get; set; }
     }

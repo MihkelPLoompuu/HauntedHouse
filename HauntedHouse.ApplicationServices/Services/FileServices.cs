@@ -15,12 +15,12 @@ namespace HauntedHouse.ApplicationServices.Services
     public class FileServices : IFileServices
     {
         private readonly IHostEnvironment _webHost;
-        private readonly HunterContext _context;
+        private readonly HauntedHouseContext _context;
 
         public FileServices
             (
                 IHostEnvironment webHost,
-                HunterContext context
+                HauntedHouseContext context
             )
         {
             _webHost = webHost;
