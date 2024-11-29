@@ -1,4 +1,6 @@
-﻿using System;
+﻿using HauntedHouse.Core.Domain;
+using HauntedHouse.Core.Dto.AccountsDtos;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +10,8 @@ namespace HauntedHouse.Core.ServiceInterface
 {
     public interface IAccountsServices
     {
+        Task<ApplicationUser> ConfirmEmail(string userId, string token);
+        Task<ApplicationUser> Register(ApplicationUserDto dto);
+        Task<ApplicationUser> Login(LoginDto dto);
     }
 }
