@@ -82,12 +82,14 @@ namespace HauntedHouse.Controllers
             }
             return View(model);
         }
+
         [HttpGet]
         [AllowAnonymous]
         public IActionResult ForgotPassword()
         {
             return View();
         }
+
         [HttpPost]
         [AllowAnonymous]
         public async Task<IActionResult> ForgotPassword(ForgotPasswordViewModel model)
@@ -107,6 +109,125 @@ namespace HauntedHouse.Controllers
                 return View("ForgotPasswordConfirmation");
             }
             return View(model);
+        }
+
+
+        [HttpGet]
+        public IActionResult Register()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<IActionResult> Register(RegisterViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = new ApplicationUser
+                {
+                    UserName = model.Email,
+                    Email = model.Email,
+                    City = model.City,
+                };
+                var result = await _userManager.CreateAsync(user, model.Password);
+                if (result.Succeeded)
+                {
+                    var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+
+                    var confirmationlink = Url.Action("ConfirmEmail", "Accounts", new { userId = user.Id, token = token }, Request.Scheme);
+                    if(_SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+                    {
+                        return RedirectToAction("ListUsers", "Adminstrations");
+                    }
+                    ViewBag.ErrorTitle = "You have successfully registered";
+                    ViewBag.ErrorMessage = "Before you can log in, please confirm email from the link" +
+                        "\nwe have emailed to your email address.";
+                    return View("Erroe");
+                }
+                foreach(var error in result.Errors)
+                {
+                    ModelState.AddModelError("", error.Description);
+                }
+            }
+            return View();
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<IActionResult> ConfirmEmail(string userId, string token)
+        {
+            if(userId == null || token == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            var user = await _userManager.FindByIdAsync(userId);
+            if(user == null)
+            {
+                ViewBag.ErrorMessage = $"The user with id of {userId} is not valid";
+                return View("NotFound");
+            }
+            var result = await _userManager.ConfirmEmailAsync(user, token);
+            if (result.Succeeded)
+            {
+                return View();
+            }
+            ViewBag.ErrorTitle = "Email cannot be confirmed";
+            ViewBag.ErrorMessage = $"The user email, with userid of {userId}, cannot be confirmed";
+            return View("Error");
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<IActionResult> Login (string? returnURL)
+        {
+            LoginViewModel vm = new()
+            {
+                ReturnURL = returnURL,
+            };
+            return View(vm);
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<IActionResult>Login(LoginViewModel model,string? returnURL)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.FindByEmailAsync(model.Email);
+
+                if(user != null && !user.EmailConfirmed && (await _userManager.CheckPasswordAsync(user, model.Password)))
+                {
+                    ModelState.AddModelError(string.Empty, "Your email hasn't been confirmed yet. Please check your Email spam folders.");
+                    return View(model);
+                }
+                var result = await _SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, true);
+                if (result.Succeeded)
+                {
+                    if(!string.IsNullOrEmpty(returnURL) && Url.IsLocalUrl(returnURL))
+                    {
+                        return View(returnURL);
+                    }
+                    else
+                    {
+                        return RedirectToAction("Index", "Home");
+                    }
+                }
+
+                if (result.IsLockedOut)
+                {
+                    return View("AccountLocked");
+                }
+                ModelState.AddModelError("", "Invalid Login Attempt, please contact admin.");
+            }
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Logout()
+        {
+            await _SignInManager.SignOutAsync();
+            return RedirectToAction("Index", "Home");
         }
     }
 }
