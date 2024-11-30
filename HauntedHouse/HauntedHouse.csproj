@@ -29,6 +29,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Models\Rooms\" />
     <Folder Include="wwwroot\lib\gamesset\image\site\" />
   </ItemGroup>
 
