@@ -43,7 +43,6 @@ namespace HauntedHouse.Controllers
                     ID = x.ImageID,
                     ImageData = x.ImageData,
                     ImageTitle = x.ImageTitle,
-                    RoomID = x.RoomID,
                 }).ToArray()
             };
             var result = await _roomsServices.Create(dto);

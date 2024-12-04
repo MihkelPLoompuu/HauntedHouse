@@ -8,7 +8,17 @@ namespace HauntedHouse.Core.Domain
 {
     public enum RoomType
     {
-        //lisa siia rooms types
+        Attic,
+        Bathroom,
+        Living_room,
+        Kitchen,
+        Garage,
+        bedroom,
+        basement,
+        Library,
+        Office,
+        Guest_room,
+        Gym
     }
     public class Room
     {
