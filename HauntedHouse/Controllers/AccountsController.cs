@@ -1,9 +1,11 @@
 ﻿using HauntedHouse.Core.Domain;
 using HauntedHouse.Data;
+using HauntedHouse.Models;
 using HauntedHouse.Models.Accounts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
 
 namespace HauntedHouse.Controllers
 {
@@ -176,6 +178,7 @@ namespace HauntedHouse.Controllers
 
         [HttpPost]
         [AllowAnonymous]
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
             if (ModelState.IsValid)
@@ -196,10 +199,18 @@ namespace HauntedHouse.Controllers
                     {
                         return RedirectToAction("ListUsers", "Adminstrations");
                     }
+                    List<string> errordatas =
+                       [
+                       "Area", "Accounts",
+                        "Issue", "Success",
+                        "StatusMessage", "Registration Success",
+                        "ActedOn", $"{model.Email}",
+                        "CreatedAccountData", $"{model.Email}\n{model.City}\n[password hidden]\n[password hidden]"
+                       ];
                     ViewBag.ErrorTitle = "You have successfully registered";
                     ViewBag.ErrorMessage = "Before you can log in, please confirm email from the link" +
                         "\nwe have emailed to your email address.";
-                    return View("Erroe");
+                    return View("~/Views/Shared/Error.cshtml", new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
                 }
                 foreach(var error in result.Errors)
                 {
