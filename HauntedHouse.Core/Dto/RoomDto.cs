@@ -19,6 +19,6 @@ namespace HauntedHouse.Core.Dto
 
         //db
         public DateTime CreatedAt { get; set; }
-        public DateTime ModifiedAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
     }
 }
