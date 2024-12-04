@@ -8,11 +8,11 @@ namespace HauntedHouse.Controllers
 {
     public class RoomsController : Controller
     {
-        private readonly HunterContext _context;
+        private readonly HauntedHouseContext _context;
         private readonly IRoomsServices _roomsServices;
         private readonly IFileServices _fileServices;
 
-        public RoomsController(HunterContext context, IRoomsServices roomsServices, IFileServices fileServices)
+        public RoomsController(HauntedHouseContext context, IRoomsServices roomsServices, IFileServices fileServices)
         {
             _context = context;
             _roomsServices = roomsServices;

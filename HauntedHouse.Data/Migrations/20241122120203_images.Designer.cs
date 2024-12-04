@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace HauntedHouse.Data.Migrations
 {
-    [DbContext(typeof(HunterContext))]
+    [DbContext(typeof(HauntedHouseContext))]
     [Migration("20241122120203_images")]
     partial class images
     {

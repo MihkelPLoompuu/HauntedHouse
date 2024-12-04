@@ -15,7 +15,7 @@ namespace HauntedHouse
             builder.Services.AddControllersWithViews();
             builder.Services.AddScoped<IHuntersServices, HuntersServices>();
             builder.Services.AddScoped<IFileServices, FileServices>();
-            builder.Services.AddDbContext<HunterContext>(
+            builder.Services.AddDbContext<HauntedHouse>(
             options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
             var app = builder.Build();
 

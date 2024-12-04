@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace HauntedHouse.Data.Migrations
 {
-    [DbContext(typeof(HunterContext))]
+    [DbContext(typeof(HauntedHouseContext))]
     [Migration("20241116221733_Init")]
     partial class Init
     {
