@@ -1,6 +1,7 @@
 ﻿using HauntedHouse.Core.Dto;
 using HauntedHouse.Core.ServiceInterface;
 using HauntedHouse.Data;
+using HauntedHouse.Models.Hunters;
 using HauntedHouse.Models.Rooms;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,7 +21,25 @@ namespace HauntedHouse.Controllers
         }
         public IActionResult Index()
         {
-            return View();
+            var Room = _context.Rooms
+               .OrderByDescending(y => y.RoomName)
+               .Select(x => new RoomIndexViewModel
+               {
+                   ID = x.ID,
+                   RoomName = x.RoomName,
+                   RoomType = x.RoomType,
+                   Image = (List<RoomImageViewModel>)_context.FileToDatabase
+                      .Where(t => t.HunterID == x.ID)
+                      .Select(z => new RoomImageViewModel
+                      {
+                          RoomID = z.ID,
+                          ImageID = z.ID,
+                          ImageData = z.ImageData,
+                          ImageTitle = z.ImageTitle,
+                          Image = string.Format("data:image/gif;base64,{0}", Convert.ToBase64String(z.ImageData))
+                      })
+               });
+            return View(Room);
         }
         public IActionResult Create()
         {
