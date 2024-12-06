@@ -1,4 +1,6 @@
 ﻿using HauntedHouse.Core.Domain;
+using HauntedHouse.Core.Dto;
+using HauntedHouse.Core.ServiceInterface;
 using HauntedHouse.Data;
 using HauntedHouse.Models;
 using HauntedHouse.Models.Accounts;
@@ -14,12 +16,14 @@ namespace HauntedHouse.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _SignInManager;
         private readonly HauntedHouseContext _context;
+        private readonly IEmailsServices _emailServices;
 
-        public AccountsController(UserManager<ApplicationUser> userManager,SignInManager<ApplicationUser> signInManager, HauntedHouseContext context)
+        public AccountsController(UserManager<ApplicationUser> userManager,SignInManager<ApplicationUser> signInManager, HauntedHouseContext context, IEmailsServices emailsservices)
         {
             _userManager = userManager;
             _SignInManager = signInManager;
             _context = context; 
+            _emailServices = emailsservices;
         }
         [HttpGet]
         public async Task<IActionResult> AddPassword()
@@ -195,6 +199,12 @@ namespace HauntedHouse.Controllers
                     var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
 
                     var confirmationlink = Url.Action("ConfirmEmail", "Accounts", new { userId = user.Id, token = token }, Request.Scheme);
+                    EmailTokenDto newsignup = new();
+                    newsignup.Token = token;
+                    newsignup.Body = $"Tahank you for s´iging up{confirmationlink}";
+                    newsignup.Subject = "HauntedHouse Register";
+                    newsignup.To = user.Email;
+                    
                     if(_SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
                     {
                         return RedirectToAction("ListUsers", "Adminstrations");

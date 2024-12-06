@@ -18,7 +18,8 @@ namespace HauntedHouse
             builder.Services.AddControllersWithViews();
             builder.Services.AddScoped<IHuntersServices, HuntersServices>();
             builder.Services.AddScoped<IFileServices, FileServices>();
-            builder.Services.AddScoped<IAccountsServices, AccountsServices>();
+            builder.Services.AddScoped<IEmailsServices, EmailsServices>();
+            builder.Services.AddScoped<IAccountsServices, AccountsServices>();       
             builder.Services.AddDbContext<HauntedHouseContext>(
             options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>

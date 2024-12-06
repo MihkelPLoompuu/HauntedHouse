@@ -1,4 +1,5 @@
 ﻿using HauntedHouse.Core.Dto;
+using HauntedHouse.Core.ServiceInterface;
 using HauntedHouse.Models.Emails;
 using Microsoft.AspNetCore.Mvc;
 
@@ -6,8 +7,8 @@ namespace HauntedHouse.Controllers
 {
     public class EmailsController : Controller
     {
-        private readonly IEmailServices _emailsServices;
-        public EmailsController(IEmailServices emailsServices)
+        private readonly IEmailsServices _emailsServices;
+        public EmailsController(IEmailsServices emailsServices)
         {
             _emailsServices = emailsServices;
         }
@@ -27,6 +28,19 @@ namespace HauntedHouse.Controllers
                 Body = viewModel.Body,
             };
             _emailsServices.SendEmail(dto);
+            return RedirectToAction(nameof(Index));
+        }
+        [HttpPost]
+        public IActionResult SendTokenEmail(EmailViewModel viewModel, string token)
+        {
+            var dto = new EmailTokenDto()
+            {
+                To = viewModel.To,
+                Subject = viewModel.Subject,
+                Body = viewModel.Body,
+                Token = token,
+            };
+            _emailsServices.SendEmailToken(dto, token);
             return RedirectToAction(nameof(Index));
         }
     }
