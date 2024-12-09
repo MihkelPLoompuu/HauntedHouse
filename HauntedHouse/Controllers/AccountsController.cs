@@ -1,4 +1,5 @@
-﻿using HauntedHouse.Core.Domain;
+﻿using HauntedHouse.ApplicationServices.Services;
+using HauntedHouse.Core.Domain;
 using HauntedHouse.Core.Dto;
 using HauntedHouse.Core.ServiceInterface;
 using HauntedHouse.Data;
@@ -23,7 +24,7 @@ namespace HauntedHouse.Controllers
             _userManager = userManager;
             _SignInManager = signInManager;
             _context = context; 
-            _emailServices = emailsservices;
+           _emailServices = emailsservices;
         }
         [HttpGet]
         public async Task<IActionResult> AddPassword()
@@ -198,31 +199,35 @@ namespace HauntedHouse.Controllers
                 {
                     var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
 
-                    var confirmationlink = Url.Action("ConfirmEmail", "Accounts", new { userId = user.Id, token = token }, Request.Scheme);
+                    var confirmationLink = Url.Action("ConfirmEmail", "Accounts", new { userId = user.Id, token = token }, Request.Scheme);
+
                     EmailTokenDto newsignup = new();
                     newsignup.Token = token;
-                    newsignup.Body = $"Tahank you for s´iging up{confirmationlink}";
-                    newsignup.Subject = "HauntedHouse Register";
+                    newsignup.Body = $"Thank you for signing up, klikka här:  {confirmationLink}";
+                    newsignup.Subject = "GalacticTitans Register";
                     newsignup.To = user.Email;
-                    
-                    if(_SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+
+                    _emailServices.SendEmailToken(newsignup, token);
+                    if (_SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
                     {
-                        return RedirectToAction("ListUsers", "Adminstrations");
+                        return RedirectToAction("ListUsers", "Administrations");
                     }
+
                     List<string> errordatas =
-                       [
-                       "Area", "Accounts",
+                        [
+                        "Area", "Accounts",
                         "Issue", "Success",
                         "StatusMessage", "Registration Success",
                         "ActedOn", $"{model.Email}",
                         "CreatedAccountData", $"{model.Email}\n{model.City}\n[password hidden]\n[password hidden]"
-                       ];
+                        ];
+                    ViewBag.ErrorDatas = errordatas;
                     ViewBag.ErrorTitle = "You have successfully registered";
                     ViewBag.ErrorMessage = "Before you can log in, please confirm email from the link" +
                         "\nwe have emailed to your email address.";
                     return View("~/Views/Shared/Error.cshtml", new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
                 }
-                foreach(var error in result.Errors)
+                foreach (var error in result.Errors)
                 {
                     ModelState.AddModelError("", error.Description);
                 }
@@ -232,26 +237,44 @@ namespace HauntedHouse.Controllers
 
         [HttpGet]
         [AllowAnonymous]
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public async Task<IActionResult> ConfirmEmail(string userId, string token)
         {
-            if(userId == null || token == null)
-            {
-                return RedirectToAction("Index", "Home");
-            }
+            if (userId == null || token == null) { return RedirectToAction("Index", "Home"); }
             var user = await _userManager.FindByIdAsync(userId);
-            if(user == null)
+            if (user == null)
             {
                 ViewBag.ErrorMessage = $"The user with id of {userId} is not valid";
                 return View("NotFound");
             }
             var result = await _userManager.ConfirmEmailAsync(user, token);
+            List<string> errordatas =
+                        [
+                        "Area", "Accounts",
+                        "Issue", "Failure",
+                        "StatusMessage", "Confirmation Failure",
+                        "ActedOn", $"{user.Email}",
+                        "CreatedAccountData", $"{user.Email}\n{user.City}\n[password hidden]\n[password hidden]"
+                        ];
             if (result.Succeeded)
             {
+                errordatas =
+                        [
+                        "Area", "Accounts",
+                        "Issue", "Success",
+                        "StatusMessage", "Confirmation Success",
+                        "ActedOn", $"{user.Email}",
+                        "CreatedAccountData", $"{user.Email}\n{user.City}\n[password hidden]\n[password hidden]"
+                        ];
+                ViewBag.ErrorDatas = errordatas;
                 return View();
+
             }
+
+            ViewBag.ErrorDatas = errordatas;
             ViewBag.ErrorTitle = "Email cannot be confirmed";
-            ViewBag.ErrorMessage = $"The user email, with userid of {userId}, cannot be confirmed";
-            return View("Error");
+            ViewBag.ErrorMessage = $"The users email, with userid of {userId}, cannot be confirmed.";
+            return View("Error", new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
         [HttpGet]
