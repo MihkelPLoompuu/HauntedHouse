@@ -16,5 +16,6 @@ namespace HauntedHouse.Data
         public DbSet<Hunter> Hunters { get; set; }
         public DbSet<FileToDatabase> FileToDatabase { get; set; }
         public DbSet<IdentityRole> IdentityRoles { get; set; }
+        public DbSet<PlayerProfile> PlayerProfiles { get; set; }
     }
 }
