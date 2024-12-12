@@ -19,7 +19,16 @@ namespace HauntedHouse.Controllers
         }
         public IActionResult Index()
         {
-            return View();
+            var allPlanets = _context.Rooms
+               .OrderByDescending(y => y.RoomType)
+               .Select(x => new RoomIndexViewModel
+               {
+                   ID = x.ID,
+                   RoomName = x.RoomName,
+                   RoomType = x.RoomType,
+                   BuildingID = (Guid)x.BuildingID,
+               });
+            return View(allPlanets);
         }
     }
 }
