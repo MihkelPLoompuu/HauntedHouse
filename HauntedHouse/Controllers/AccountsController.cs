@@ -15,16 +15,22 @@ namespace HauntedHouse.Controllers
     public class AccountsController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly SignInManager<ApplicationUser> _SignInManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly HauntedHouseContext _context;
-        private readonly IEmailsServices _emailServices;
+        private readonly IEmailsServices _emailsServices;
 
-        public AccountsController(UserManager<ApplicationUser> userManager,SignInManager<ApplicationUser> signInManager, HauntedHouseContext context, IEmailsServices emailsservices)
+        public AccountsController
+            (
+            UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager,
+            HauntedHouseContext context,
+            IEmailsServices emailsServices
+            )
         {
             _userManager = userManager;
-            _SignInManager = signInManager;
-            _context = context; 
-           _emailServices = emailsservices;
+            _signInManager = signInManager;
+            _context = context;
+            _emailsServices = emailsServices;
         }
         [HttpGet]
         public async Task<IActionResult> AddPassword()
@@ -47,13 +53,13 @@ namespace HauntedHouse.Controllers
                 var result = await _userManager.AddPasswordAsync(user, model.NewPassword);
                 if (!result.Succeeded)
                 {
-                    foreach(var error in result.Errors)
+                    foreach (var error in result.Errors)
                     {
                         ModelState.AddModelError(string.Empty, error.Description);
                     }
                     return View();
                 }
-                await _SignInManager.RefreshSignInAsync(user);
+                await _signInManager.RefreshSignInAsync(user);
                 return View("AddPasswordConfirmation");
             }
             return View(model);
@@ -70,7 +76,7 @@ namespace HauntedHouse.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = await _userManager.GetUserAsync (User);
+                var user = await _userManager.GetUserAsync(User);
                 if (user == null)
                 {
                     return RedirectToAction("Login");
@@ -78,13 +84,13 @@ namespace HauntedHouse.Controllers
                 var result = await _userManager.ChangePasswordAsync(user, model.CurrentPassword, model.NewPassword);
                 if (!result.Succeeded)
                 {
-                    foreach(var error in result.Errors)
+                    foreach (var error in result.Errors)
                     {
                         ModelState.AddModelError(string.Empty, error.Description);
                     }
                     return View();
                 }
-                await _SignInManager.RefreshSignInAsync (user);
+                await _signInManager.RefreshSignInAsync(user);
                 return View("ChangePasswordConfirmation");
             }
             return View(model);
@@ -103,14 +109,15 @@ namespace HauntedHouse.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = await _userManager.FindByEmailAsync (model.Email);
+                var user = await _userManager.FindByEmailAsync(model.Email);
 
                 if (user != null && await _userManager.IsEmailConfirmedAsync(user))
                 {
                     var token = await _userManager.GeneratePasswordResetTokenAsync(user);
-                    
-                    var passwordResetLink = Url.Action("ResetPassword", "Accounts", new {email = model.Email, token =token}, Request.Scheme);
-                    
+
+                    var passwordResetLink = Url.Action("ResetPassword", "Accounts", new { email = model.Email, token = token }, Request.Scheme);
+                    // !!
+
                     return View("ForgotPasswordConfirmation");
                 }
                 return View("ForgotPasswordConfirmation");
@@ -122,9 +129,9 @@ namespace HauntedHouse.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> ResetPassword()
         {
-            var user = await _userManager.GetUserAsync (User);
-            var token = await _userManager.GeneratePasswordResetTokenAsync (user);
-            if(token == null || user.Email == null)
+            var user = await _userManager.GetUserAsync(User);
+            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+            if (token == null || user.Email == null)
             {
                 ModelState.AddModelError("", "Invalid password reset token");
             }
@@ -142,21 +149,21 @@ namespace HauntedHouse.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = await _userManager.FindByEmailAsync (model.Email);
-                if(user != null)
+                var user = await _userManager.FindByEmailAsync(model.Email);
+                if (user != null)
                 {
                     var result = await _userManager.ResetPasswordAsync(user, model.Token, model.Password);
                     if (result.Succeeded)
                     {
-                        if(await _userManager.IsLockedOutAsync(user))
+                        if (await _userManager.IsLockedOutAsync(user))
                         {
                             await _userManager.SetLockoutEndDateAsync(user, DateTimeOffset.UtcNow);
                         }
-                        await _SignInManager.SignOutAsync();
+                        await _signInManager.SignOutAsync();
                         await _userManager.DeleteAsync(user);
                         return RedirectToAction("ResetPasswordConfirmation", "Accounts");
                     }
-                    foreach(var error in result.Errors)
+                    foreach (var error in result.Errors)
                     {
                         ModelState.AddModelError("", error.Description);
                     }
@@ -165,16 +172,18 @@ namespace HauntedHouse.Controllers
                 await _userManager.DeleteAsync(user);
                 return RedirectToAction("ResetPasswordConfirmation", "Accounts");
             }
+
             return RedirectToAction("ResetPasswordConfirmation", "Accounts");
         }
 
         [HttpGet]
         [AllowAnonymous]
-        public IActionResult ResetPasswordConfirmation() 
+        public IActionResult ResetPasswordConfirmation()
         {
             return View();
         }
 
+        // user register methods
         [HttpGet]
         public IActionResult Register()
         {
@@ -207,8 +216,8 @@ namespace HauntedHouse.Controllers
                     newsignup.Subject = "GalacticTitans Register";
                     newsignup.To = user.Email;
 
-                    _emailServices.SendEmailToken(newsignup, token);
-                    if (_SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+                    _emailsServices.SendEmailToken(newsignup, token);
+                    if (_signInManager.IsSignedIn(User) && User.IsInRole("Admin"))
                     {
                         return RedirectToAction("ListUsers", "Administrations");
                     }
@@ -277,43 +286,46 @@ namespace HauntedHouse.Controllers
             return View("Error", new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
+        // user login & logout methods
         [HttpGet]
         [AllowAnonymous]
-        public async Task<IActionResult> Login (string? returnURL)
+        public async Task<IActionResult> Login(string? returnURL)
         {
             LoginViewModel vm = new()
             {
                 ReturnURL = returnURL,
+                // extval
             };
+
             return View(vm);
         }
 
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult>Login(LoginViewModel model,string? returnURL)
+        public async Task<IActionResult> Login(LoginViewModel model, string? returnURL)
         {
+            // extval
             if (ModelState.IsValid)
             {
                 var user = await _userManager.FindByEmailAsync(model.Email);
 
-                if(user != null && !user.EmailConfirmed && (await _userManager.CheckPasswordAsync(user, model.Password)))
+                if (user != null && !user.EmailConfirmed && (await _userManager.CheckPasswordAsync(user, model.Password)))
                 {
                     ModelState.AddModelError(string.Empty, "Your email hasn't been confirmed yet. Please check your Email spam folders.");
                     return View(model);
                 }
-                var result = await _SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, true);
+                var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, true);
                 if (result.Succeeded)
                 {
-                    if(!string.IsNullOrEmpty(returnURL) && Url.IsLocalUrl(returnURL))
+                    if (!string.IsNullOrEmpty(returnURL) && Url.IsLocalUrl(returnURL))
                     {
-                        return View(returnURL);
+                        return Redirect(returnURL);
                     }
                     else
                     {
                         return RedirectToAction("Index", "Home");
                     }
                 }
-
                 if (result.IsLockedOut)
                 {
                     return View("AccountLocked");
@@ -326,8 +338,9 @@ namespace HauntedHouse.Controllers
         [HttpPost]
         public async Task<IActionResult> Logout()
         {
-            await _SignInManager.SignOutAsync();
+            await _signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
         }
+
     }
 }
