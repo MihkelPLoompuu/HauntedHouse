@@ -12,14 +12,12 @@ namespace HauntedHouse.Controllers
         {
             _emailsServices = emailsServices;
         }
-
         public IActionResult Index()
         {
             return View();
         }
-
         [HttpPost]
-        public IActionResult SendEmail(EmailViewModel viewModel) 
+        public IActionResult SendEmail(EmailViewModel viewModel)
         {
             var dto = new EmailDto()
             {
@@ -38,7 +36,7 @@ namespace HauntedHouse.Controllers
                 To = viewModel.To,
                 Subject = viewModel.Subject,
                 Body = viewModel.Body,
-                Token = token,
+                Token = token
             };
             _emailsServices.SendEmailToken(dto, token);
             return RedirectToAction(nameof(Index));
