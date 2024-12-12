@@ -294,8 +294,9 @@ namespace HauntedHouse.Controllers
                 //    HunterID = x.HunterID,
                 //}).ToArray()
             };
-            var result = await _storiesServices.Create(dto);
+            //var result = await _storiesServices.Create(dto);
 
+            string result = null;
             if (result == null)
             {
                 return RedirectToAction("Index");
