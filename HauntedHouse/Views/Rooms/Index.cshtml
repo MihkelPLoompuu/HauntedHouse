@@ -1,5 +1,77 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model IEnumerable<HauntedHouse.Models.Rooms.RoomIndexViewModel>
+
 @{
+    int rowNumber = 1;
 }
+<div>
+    <a asp-action="Create" asp-controller="Rooms" class="btn btn-primary">Create new Room</a>
+</div>
+<div class="h1">Your Room:</div>
+<form method="post">
+    <table class="table table-hover" id="tableWH">
+        <thead>
+            @if (!Model.Any())
+            {
+                <tr>
+                    <th scope="col" colspan="4" class="TColor">
+                        <span>does not have any Room yet.</span>
+                    </th>
+                </tr>
+            }
+        </thead>
+        <tbody>
+            @if (!Model.Any())
+            {
+                <table class="HIT">
+                    <div>Room</div>
+                    <tr><td colspan="2">RoomName</td></tr>
+                    <tr>
+                        <td colspan="2">
+                            <img src="~/lib/gamesset/image/premadehunters/Hunter.png" />
+                        </td>
+                    </tr>
+                    <tr><td>RoomLevel</td></tr>
+                </table>
+                rowNumber++;
+            }
+            else
+            {
+                @foreach (var rooms in Model)
+                {
+                <td>
+                    <table class="HIT">
+                        <div>Rooms</div>
+                        <tr class="TColor"><td colspan="2">@rooms.RoomName</td></tr>
+                        <tr class="TColor">
+                            <td colspan="2">
+                                    @if (rooms.Image == null || !rooms.Image.Any())
+                                    {
+                                    <img src="~/lib/gamesset/image/premadehunters/NotImplementedImage.png" alt="Default Image" class="card-img-top" />
+                                    }
+                                    else
+                                    {
+                                        @foreach (var Image in rooms.Image)
+                                        {
+                                        <partial name="_ImageIndex" model="Image" />
+                                        }
+                                    }
+                            </td>
+                        </tr>
+                        <tr class="TColor"><td>@rooms.RoomLevel</td></tr>
+                        <tr class="TColor"><td colspan="2">XPBAROBJECT</td></tr>
+                    </table>
+                    <div class="Action-btn">
+                        Admin Actions
+                        <br />
+                        <a asp-action="details" asp-controller="rooms" asp-route-id="@rooms.ID" class="btn btn-info">RoomDetails</a>
+                        <a asp-action="update" asp-controller="rooms" asp-route-id="@rooms.ID" class="btn btn-info">RoomConfigure</a>
+                        <br />
+                        <a asp-action="delete" asp-controller="rooms" asp-route-id="@rooms.ID" class="btn btn-info">RoomDelete</a>
+                    </div>
+                </td>
+                    rowNumber++;
+                }
+            }
+        </tbody>
+    </table>
+</form>

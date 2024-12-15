@@ -25,6 +25,7 @@ namespace HauntedHouse.Core.Domain
         public Guid ID { get; set; }
         public string RoomName { get; set; }
         public RoomType RoomType { get; set; }
+        public int RoomLevel { get; set; }
         public Guid? BuildingID { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
