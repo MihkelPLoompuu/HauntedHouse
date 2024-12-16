@@ -103,7 +103,7 @@ namespace HauntedHouse.Controllers
         {
             var dto = new RoomDto()
             {
-                ID = (Guid)vm.ID,
+                ID = vm.ID,
                 RoomName = vm.RoomName,
                 RoomType = vm.RoomType,                
                 CreatedAt = vm.CreatedAt,
