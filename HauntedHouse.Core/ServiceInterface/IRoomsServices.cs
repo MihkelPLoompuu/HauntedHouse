@@ -10,6 +10,8 @@ namespace HauntedHouse.Core.ServiceInterface
 {
     public interface IRoomsServices
     {
+        Task<Room> DetailsAsync(Guid id);
+        Task<Room> Delete(Guid id);
         Task<Room> Create(RoomDto dto);
     }
 }

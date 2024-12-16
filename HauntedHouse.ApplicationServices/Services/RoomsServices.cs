@@ -21,6 +21,12 @@ namespace HauntedHouse.ApplicationServices.Services
             _context = context;
             _fileServices = fileServices;
         }
+        public async Task<Room> DetailsAsync(Guid id)
+        {
+            var result = await _context.Rooms
+                .FirstOrDefaultAsync(x => x.ID == id);
+            return result;
+        }
         public async Task<Room> Create(RoomDto dto)
         {
             Room room = new Room();
@@ -45,6 +51,15 @@ namespace HauntedHouse.ApplicationServices.Services
             await _context.SaveChangesAsync();
 
             return room;
+        }
+        public async Task<Room> Delete(Guid id)
+        {
+            var result = await _context.Rooms
+                .FirstOrDefaultAsync(x => x.ID == id);
+            _context.Rooms.Remove(result);
+            await _context.SaveChangesAsync();
+
+            return result;
         }
     }
 }

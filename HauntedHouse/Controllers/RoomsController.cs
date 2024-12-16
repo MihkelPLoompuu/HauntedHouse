@@ -5,6 +5,7 @@ using HauntedHouse.Data;
 using HauntedHouse.Models.Hunters;
 using HauntedHouse.Models.Rooms;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace HauntedHouse.Controllers
 {
@@ -66,6 +67,45 @@ namespace HauntedHouse.Controllers
                 return RedirectToAction("Index");
             }
             return RedirectToAction("Index", vm);
+        }
+        [HttpGet]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            if (id == null) { return NotFound(); }
+
+            var room = await _roomsServices.DetailsAsync(id);
+
+            if (room == null) { return NotFound(); };
+
+            var images = await _context.FileToDatabase
+                .Where(x => x.ID == id)
+                .Select(y => new RoomImageViewModel
+                {
+                    ImageID = y.ID,
+                    ImageData = y.ImageData,
+                    ImageTitle = y.ImageTitle,
+                    Image = string.Format("data:image/gif;base64,{0}", Convert.ToBase64String(y.ImageData))
+                }).ToArrayAsync();
+            var vm = new RoomDeleteViewModel();
+
+            vm.ID = room.ID;
+            vm.RoomName = room.RoomName; 
+            vm.RoomType = room.RoomType;
+            vm.CreatedAt = room.CreatedAt;
+            vm.UpdatedAt = DateTime.Now;
+            vm.Image.AddRange(images);
+
+            return View(vm);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteConfirmation(Guid id)
+        {
+            var hunterToDelete = await _roomsServices.Delete(id);
+
+            if (hunterToDelete == null) { return RedirectToAction("Index"); }
+
+            return RedirectToAction("Index");
         }
     }
 }
