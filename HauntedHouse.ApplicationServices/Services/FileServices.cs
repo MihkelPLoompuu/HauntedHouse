@@ -48,7 +48,7 @@ namespace HauntedHouse.ApplicationServices.Services
                     }
                 }
             }
-        }
+        }      
 
         public async Task<FileToDatabase> RemoveImageFromDatabase(FileToDatabaseDto dto)
         {
