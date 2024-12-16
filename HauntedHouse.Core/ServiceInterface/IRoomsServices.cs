@@ -12,6 +12,7 @@ namespace HauntedHouse.Core.ServiceInterface
     {
         Task<Room> DetailsAsync(Guid id);
         Task<Room> Delete(Guid id);
+        Task<Room> Update(RoomDto dto);
         Task<Room> Create(RoomDto dto);
     }
 }

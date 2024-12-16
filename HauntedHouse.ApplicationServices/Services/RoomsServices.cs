@@ -42,12 +42,37 @@ namespace HauntedHouse.ApplicationServices.Services
             room.UpdatedAt = DateTime.Now;
 
             //files
-            //if (dto.Files != null)
-            //{
-            //    _fileServices.UploadFilesToDatabase(dto, room);
-            //}
+            if (dto.Files != null)
+            {
+                _fileServices.UploadFilesToDatabase(dto, room);
+            }
 
             await _context.Rooms.AddAsync(room);
+            await _context.SaveChangesAsync();
+
+            return room;
+        }
+        public async Task<Room> Update(RoomDto dto)
+        {
+            Room room = new Room();
+
+            // set by service
+            room.BuildingID = dto.BuildingID;
+
+            //set by user
+            room.RoomName = dto.RoomName;
+            room.RoomType = dto.RoomType;
+
+            //set for db
+            room.CreatedAt = dto.CreatedAt;
+            room.UpdatedAt = DateTime.Now;
+
+            //files
+            if (dto.Files != null)
+            {
+                _fileServices.UploadFilesToDatabase(dto, room);
+            }
+            _context.Rooms.Update(room);
             await _context.SaveChangesAsync();
 
             return room;

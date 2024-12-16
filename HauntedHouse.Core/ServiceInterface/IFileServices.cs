@@ -11,6 +11,7 @@ namespace HauntedHouse.Core.ServiceInterface
     public interface IFileServices
     {
         void UploadFilesToDatabase(HunterDto dto, Hunter domain);
+        void UploadFilesToDatabase(RoomDto dto, Room domain);
         Task<FileToDatabase> RemoveImageFromDatabase(FileToDatabaseDto dto);
     }
 }
