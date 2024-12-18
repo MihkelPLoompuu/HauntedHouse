@@ -1,4 +1,6 @@
-﻿using HauntedHouse.Core.Dto;
+﻿using HauntedHouse.ApplicationServices.Services;
+using HauntedHouse.Core.Domain;
+using HauntedHouse.Core.Dto;
 using HauntedHouse.Core.ServiceInterface;
 using HauntedHouse.Data;
 using HauntedHouse.Models.Hunters;
@@ -66,6 +68,35 @@ namespace HauntedHouse.Controllers
                 return RedirectToAction("Index");
             }
             return RedirectToAction("Index", vm);
+        }
+        [HttpGet]
+        public async Task<IActionResult> Details(Guid id)
+        {
+            if (id == null) { return NotFound(); }
+
+            var room = await _roomsServices.DetailsAsync(id);
+
+            if (room == null) { return NotFound(); };
+
+            var images = await _context.FileToDatabase
+                .Where(x => x.ID == id)
+                .Select(y => new RoomImageViewModel
+                {
+                    ImageID = y.ID,
+                    ImageData = y.ImageData,
+                    ImageTitle = y.ImageTitle,
+                    Image = string.Format("data:image/gif;base64,{0}", Convert.ToBase64String(y.ImageData))
+                }).ToArrayAsync();
+            var vm = new RoomDetailsViewModel();
+
+            vm.ID = room.ID;
+            vm.RoomName = room.RoomName;
+            vm.RoomType = room.RoomType;
+            vm.CreatedAt = room.CreatedAt;
+            vm.UpdatedAt = DateTime.Now;
+            vm.Image.AddRange(images);
+
+            return View(vm);
         }
         [HttpGet]
         public async Task<IActionResult> Update(Guid id)

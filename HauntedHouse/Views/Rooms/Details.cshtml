@@ -1,0 +1,32 @@
+﻿@model HauntedHouse.Models.Rooms.RoomDetailsViewModel
+
+<h1> @Html.DisplayFor(model => model.RoomName) </h1>
+
+<div>
+    <h4>Room</h4>
+    <hr />
+    <dl class="row">
+        <div class="form-group row">
+            <label asp-for="ID" class="col-sm-2 col-form-label"></label>
+            @Html.DisplayFor(model => model.ID)
+        </div>
+        <div class="form-group row">
+            <label asp-for="RoomName" class="col-sm-2 col-form-label"></label>
+            @Html.DisplayFor(model => model.RoomName)
+        </div>
+        <div id="imagediv">
+            @foreach (var image in Model.Image)
+            {
+                <partial name="_Images" model="image" />
+            }
+        </div>
+
+        <div class="form-group row">
+            <label asp-for="RoomType" class="col-sm-2 col-form-label"></label>
+            @Html.DisplayFor(model => model.RoomType)
+        </div>
+        
+    </dl>
+
+    <a asp-action="Index" asp-controller="rooms" class="btn btn-secondary">Back</a>
+</div>
