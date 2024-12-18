@@ -1,5 +1,6 @@
 ﻿using HauntedHouse.Core.Domain;
 using HauntedHouse.Core.Dto;
+using HauntedHouse.Models.Hunters;
 
 namespace HauntedHouse.Models.Rooms
 {
@@ -10,7 +11,7 @@ namespace HauntedHouse.Models.Rooms
         public RoomType RoomType { get; set; }
         public Guid? BuildingID { get; set; }
         public List<IFormFile> Files { get; set; }
-        public IEnumerable<FileToDatabaseDto> Image { get; set; } = new List<FileToDatabaseDto>();
+        public List<RoomImageViewModel> Image { get; set; } = new List<RoomImageViewModel>();
 
         //db
         public DateTime CreatedAt { get; set; }

@@ -1,5 +1,4 @@
-﻿using HauntedHouse.ApplicationServices.Services;
-using HauntedHouse.Core.Dto;
+﻿using HauntedHouse.Core.Dto;
 using HauntedHouse.Core.ServiceInterface;
 using HauntedHouse.Data;
 using HauntedHouse.Models.Hunters;
@@ -73,15 +72,14 @@ namespace HauntedHouse.Controllers
         {
             if (id == null) { return NotFound(); }
 
-            var room = await _roomsServices.DetailsAsync(id);
+            var Room = await _roomsServices.DetailsAsync(id);
 
-            if (room == null) { return NotFound(); }
+            if (Room == null) { return NotFound(); }
 
             var images = await _context.FileToDatabase
-                .Where(x => x.ID == id)
+                .Where(x => x.RoomID == id)
                 .Select(y => new RoomImageViewModel
                 {
-                   
                     RoomID = y.ID,
                     ImageID = y.ID,
                     ImageData = y.ImageData,
@@ -90,11 +88,12 @@ namespace HauntedHouse.Controllers
                 }).ToArrayAsync();
 
             var vm = new RoomCreateViewModel();
-            vm.ID = room.ID;
-            vm.RoomName = room.RoomName;
-            vm.RoomType = room.RoomType;          
-            vm.CreatedAt = room.CreatedAt;
+            vm.ID = Room.ID;
+            vm.RoomName = Room.RoomName;
+            vm.RoomType = Room.RoomType;
+            vm.CreatedAt = Room.CreatedAt;
             vm.UpdatedAt = DateTime.Now;
+            vm.Image.AddRange(images);
 
             return View("Update", vm);
         }
@@ -103,9 +102,9 @@ namespace HauntedHouse.Controllers
         {
             var dto = new RoomDto()
             {
-                ID = vm.ID,
+                ID = (Guid)vm.ID,
                 RoomName = vm.RoomName,
-                RoomType = vm.RoomType,                
+                RoomType = vm.RoomType,
                 CreatedAt = vm.CreatedAt,
                 UpdatedAt = DateTime.Now,
                 Files = vm.Files,
@@ -115,6 +114,7 @@ namespace HauntedHouse.Controllers
                     ID = x.ImageID,
                     ImageData = x.ImageData,
                     ImageTitle = x.ImageTitle,
+                    RoomID = x.RoomID,
                 }).ToArray()
             };
             var result = await _roomsServices.Update(dto);
