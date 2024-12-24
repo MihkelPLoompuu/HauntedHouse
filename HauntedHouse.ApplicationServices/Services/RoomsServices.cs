@@ -57,6 +57,7 @@ namespace HauntedHouse.ApplicationServices.Services
             Room room = new Room();
 
             // set by service
+            room.ID = dto.ID;
             room.BuildingID = dto.BuildingID;
 
             //set by user
