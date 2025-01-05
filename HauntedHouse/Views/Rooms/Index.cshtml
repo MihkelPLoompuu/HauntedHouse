@@ -36,36 +36,36 @@
             }
             else
             {
-                @foreach (var rooms in Model)
+                @foreach (var room in Model)
                 {
                 <td>
                     <table class="HIT">
                         <div>Room</div>
-                        <tr class="TColor"><td colspan="2">@rooms.RoomName</td></tr>
+                        <tr class="TColor"><td colspan="2">@room.RoomName</td></tr>
                         <tr class="TColor">
                             <td colspan="2">
-                                    @if (rooms.Image == null || !rooms.Image.Any())
+                                    @if (room.Image == null || !room.Image.Any())
                                     {
-                                    <img src="~/lib/gamesset/image/premadehunters/NotImplementedImage.png" alt="Default Image" class="card-img-top" />
+                                        <img src="~/lib/gamesset/image/premadehunters/NotImplementedImage.png" alt="Default Image" class="card-img-top" />
                                     }
                                     else
                                     {
-                                        @foreach (var Image in rooms.Image)
+                                        @foreach (var Image in room.Image)
                                         {
                                         <partial name="_ImageIndex" model="Image" />
                                         }
                                     }
                             </td>
                         </tr>
-                        <tr class="TColor"><td>@rooms.RoomType</td></tr>
+                        <tr class="TColor"><td>@room.RoomType</td></tr>
                     </table>
                     <div class="Action-btn">
                         Admin Actions
                         <br />
-                        <a asp-action="details" asp-controller="rooms" asp-route-id="@rooms.ID" class="btn btn-info">RoomDetails</a>
-                        <a asp-action="update" asp-controller="rooms" asp-route-id="@rooms.ID" class="btn btn-info">RoomConfigure</a>
+                        <a asp-action="details" asp-controller="Rooms" asp-route-id="@room.ID" class="btn btn-info">Details</a>
+                        <a asp-action="update" asp-controller="Rooms" asp-route-id="@room.ID" class="btn btn-info">Configure</a>
                         <br />
-                        <a asp-action="delete" asp-controller="rooms" asp-route-id="@rooms.ID" class="btn btn-info">RoomDelete</a>
+                        <a asp-action="delete" asp-controller="Rooms" asp-route-id="@room.ID" class="btn btn-info">Delete</a>
                     </div>
                 </td>
                     rowNumber++;
