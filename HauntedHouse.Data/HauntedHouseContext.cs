@@ -13,6 +13,7 @@ namespace HauntedHouse.Data
         public HauntedHouseContext(DbContextOptions<HauntedHouseContext> options) : base(options) { }
         public DbSet<Hunter> Hunters { get; set; }
         public DbSet<Room> Rooms { get; set; }
+        public DbSet<Building> Buildings { get; set; }
         public DbSet<FileToDatabase> FileToDatabase { get; set; }
     }
 }

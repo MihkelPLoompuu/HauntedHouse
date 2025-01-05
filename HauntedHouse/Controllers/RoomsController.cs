@@ -24,16 +24,25 @@ namespace HauntedHouse.Controllers
         }
         public IActionResult Index()
         {
-            var allPlanets = _context.Rooms
-               .OrderByDescending(y => y.RoomType)
-               .Select(x => new RoomIndexViewModel
-               {
-                   ID = x.ID,
-                   RoomName = x.RoomName,
-                   RoomType = x.RoomType,
-                   BuildingID = (Guid)x.BuildingID,
-               });
-            return View(allPlanets);
+            var resultingInventory = _context.Rooms
+                            .OrderByDescending(y => y.RoomType)
+                            .Select(x => new RoomIndexViewModel
+                            {
+                                ID = x.ID,
+                                RoomName = x.RoomName,
+                                RoomType = x.RoomType,
+                                Image = (List<RoomImageViewModel>)_context.FileToDatabase
+                                   .Where(t => t.RoomID == x.ID)
+                                   .Select(z => new RoomImageViewModel
+                                   {
+                                       RoomID = z.ID,
+                                       ImageID = z.ID,
+                                       ImageData = z.ImageData,
+                                       ImageTitle = z.ImageTitle,
+                                       Image = string.Format("data:image/gif;base64,{0}", Convert.ToBase64String(z.ImageData))
+                                   })
+                            });
+            return View(resultingInventory);
         }
         [HttpGet]
         public IActionResult Create()
@@ -59,6 +68,7 @@ namespace HauntedHouse.Controllers
                     ID = x.ImageID,
                     ImageData = x.ImageData,
                     ImageTitle = x.ImageTitle,
+                    RoomID = x.RoomID,
                 }).ToArray()
             };
             var result = await _roomsServices.Create(dto);
