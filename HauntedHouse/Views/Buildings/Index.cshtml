@@ -1,5 +1,58 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model IEnumerable<HauntedHouse.Models.Buildings.BuildingIndexViewModel>
+
 @{
+    int rowNumber = 1;
 }
+<div>
+    <a asp-action="Create" asp-controller="Buildings" class="btn btn-primary">Create new Building</a>
+</div>
+<div class="h1">Your Buildings:</div>
+<form method="post">
+    <table class="table table-hover" id="tableWH">
+        <thead>
+            @if (!Model.Any())
+            {
+                <tr>
+                    <th scope="col" colspan="4" class="TColor">
+                        <span>does not have any Buildings yet.</span>
+                    </th>
+                </tr>
+            }
+        </thead>
+        <tbody>
+            @if (!Model.Any())
+            {
+                <table class="HIT">
+                    <div>Building</div>
+                    <tr><td colspan="2">BuildingName</td></tr>
+                    <tr><td>BuildingType</td></tr>
+                    <tr><td>CreateAt</td></tr>
+                </table>
+                rowNumber++;
+            }
+            else
+            {
+                @foreach (var building in Model)
+                {
+                <td>
+                    <table class="HIT">
+                        <div>Room</div>
+                        <tr class="TColor"><td colspan="2">@building.BuildingName</td></tr>
+                        <tr class="TColor"><td>@building.BuildingType</td></tr>
+                        <tr class="TColor"><td>@building.CreatedAt</td></tr>
+                    </table>
+                    <div class="Action-btn">
+                        Admin Actions
+                        <br />
+                        <a asp-action="details" asp-controller="buildings" asp-route-id="@building.ID" class="btn btn-info">Details</a>
+                        <a asp-action="update" asp-controller="buildings" asp-route-id="@building.ID" class="btn btn-info">Update</a>
+                        <br />
+                        <a asp-action="delete" asp-controller="buildings" asp-route-id="@building.ID" class="btn btn-info">Delete</a>
+                    </div>
+                </td>
+                    rowNumber++;
+                }
+            }
+        </tbody>
+    </table>
+</form>
