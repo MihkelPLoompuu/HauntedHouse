@@ -2,7 +2,6 @@
 using HauntedHouse.Core.ServiceInterface;
 using HauntedHouse.Data;
 using HauntedHouse.Models.Hunters;
-using HauntedHouse.Models.Stories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -259,50 +258,6 @@ namespace HauntedHouse.Controllers
             var image = await _fileServices.RemoveImageFromDatabase(dto);
             if (image == null) { return RedirectToAction("Index"); }
             return RedirectToAction("Index");
-        }
-
-        [HttpPost, ActionName("CreateHunterOwnership")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateHunterOwnership(HunterOwnershipFromStoryViewModel vm)
-        {
-            int RNG = new Random().Next(1, _context.Hunters.Count());
-
-            var sourceHUnter = _context.Hunters.OrderByDescending(x => x.HunterName).Take(RNG);
-            var dto = new HunterOwnershipDto()
-            {
-                HunterName = vm.addHunter.HunterName,
-                HunterHealth = 100,
-                HunterXP = 0,
-                HunterXPNextLevel = 100,
-                HunterLevel = 0,
-                HunterStatus = vm.addHunter.HunterStatus,
-                PrimaryAttackName = vm.addHunter.PrimaryAttackName,
-                PrimaryAttackPower = vm.addHunter.PrimaryAttackPower,
-                SecondaryAttackName = vm.addHunter.SecondaryAttackName,
-                SecondaryAttackPower = vm.addHunter.SecondaryAttackPower,
-                SpecialAttackName = vm.addHunter.SpecialAttackName,
-                SpecialAttackPower = vm.addHunter.SpecialAttackPower,
-                OwnershipCreatedAt = DateTime.Now,
-                OwnershipUpdatedAt = DateTime.Now,
-                Files = vm.addHunter.Files,
-                Image = vm.addHunter.Image
-                //.Select(x => new FileToDatabaseDto
-               // {
-                //    ID = x.ImageID,
-                //    ImageData = x.ImageData,
-                //    ImageTitle = x.ImageTitle,
-                //    HunterID = x.HunterID,
-                //}).ToArray()
-            };
-            //var result = await _storiesServices.Create(dto);
-
-            string result = null;
-            if (result == null)
-            {
-                return RedirectToAction("Index");
-            }
-
-            return RedirectToAction("Index", vm);
         }
     }
 }

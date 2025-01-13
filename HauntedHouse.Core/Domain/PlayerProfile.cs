@@ -16,7 +16,7 @@ namespace HauntedHouse.Core.Domain
         public Guid ApplicationUserID { get; set; }
         public string ScreenName { get; set; }
         public int HunterCredits { get; set; }
-        public List<HunterOwnership> MyHunter { get; set; }
+        //public List<HunterOwnership> MyHunter { get; set; }
         public int Victories { get; set; }
         public int MyProperty { get; set; }
         public string? MySolarSystem { get; set; }
