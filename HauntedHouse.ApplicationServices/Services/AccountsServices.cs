@@ -14,11 +14,15 @@ namespace HauntedHouse.ApplicationServices.Services
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _SignInManager;
+        private readonly IPlayerProfilesServices _playerProfilesServices;
+        private readonly IEmailsServices _emailsServices;
 
-        public AccountsServices(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+        public AccountsServices(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IEmailsServices emailsServices,IPlayerProfilesServices playerProfilesServices)
         {
             _userManager = userManager;
             _SignInManager = signInManager;
+            _emailsServices = emailsServices;
+            _playerProfilesServices = playerProfilesServices;
         }
 
         public async Task<ApplicationUser> Register(ApplicationUserDto dto)
@@ -28,13 +32,13 @@ namespace HauntedHouse.ApplicationServices.Services
                 UserName = dto.Username,
                 Email = dto.Email,
                 City = dto.City,
-                //PlayerProfileID  =  dto.AssociatedPlayerProfile = await _playerprofileServices.Create()
             };
             var result = await _userManager.CreateAsync(user, dto.Password);
             if (result.Succeeded)
             {
                 var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
             }
+            await _playerProfilesServices.Create((string)user.Id);
             return user;
         }
 

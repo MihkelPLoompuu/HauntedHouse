@@ -1,0 +1,34 @@
+﻿@model HauntedHouse.Models.Profiles.ProfileRegisterViewModel
+<div>
+    <h1> Customize your profile: </h1>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <form method="post">
+            <div asp-validation-summary="All" class="text-danger">
+                <input type="hidden" asp-for="ApplicationUserID" />
+                <input type="hidden" asp-for="HunterCredits" />
+                <input type="hidden" asp-for="Victories" />
+                <input type="hidden" asp-for="MyBuilding" />
+                <input type="hidden" asp-for="CurrentStatus" />
+                <input type="hidden" asp-for="ProfileType" />
+                <div class="form-group">
+                    <label asp-for="ScreenName"></label>
+                    <input asp-for="ScreenName" class="form-control" />
+                    <span asp-validation-for="ScreenName" class="text-danger"></span>
+                </div>
+                <button type="submit">
+                    <a id="gCbuttonText" viewBox="0 0 200 50"
+                       asp-controller="PlayerProfiles" asp-action="NewProfile">
+                        <svg id="indexButton">
+                            <rect class="svgButtonMainStyle"></rect>
+                            <text x="10" y="21" class="">This is me</text>
+                            <polygon class="" points='0,0 0,13 13,0'></polygon>
+                            <polygon class="" points='130,30 130,17 117,30'></polygon>
+                        </svg>
+                    </a>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

@@ -13,13 +13,12 @@ namespace HauntedHouse.Core.Domain
     public class PlayerProfile
     {
         public Guid ID { get; set; }
-        public Guid ApplicationUserID { get; set; }
+        public string ApplicationUserID { get; set; }
         public string ScreenName { get; set; }
         public int HunterCredits { get; set; }
-        //public List<HunterOwnership> MyHunter { get; set; }
         public int Victories { get; set; }
         public int MyProperty { get; set; }
-        public string? MySolarSystem { get; set; }
+        public string? MyBuildings { get; set; }
         public ProfileStatus CurrentStatus { get; set; }
         public bool ProfileType { get; set; }
         public DateTime ProfileCreatedAt { get; set; }
