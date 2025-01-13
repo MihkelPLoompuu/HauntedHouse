@@ -4,6 +4,7 @@ using HauntedHouse.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HauntedHouse.Data.Migrations
 {
     [DbContext(typeof(HauntedHouseContext))]
-    partial class HunterContextModelSnapshot : ModelSnapshot
+    [Migration("20241206101418_In")]
+    partial class In
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -38,9 +41,6 @@ namespace HauntedHouse.Data.Migrations
                     b.Property<string>("ImageTitle")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid?>("RoomID")
-                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("ID");
 

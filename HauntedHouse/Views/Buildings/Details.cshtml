@@ -1,0 +1,26 @@
+﻿@model HauntedHouse.Models.Buildings.BuildingDetailsViewModel
+
+<h1> @Html.DisplayFor(model => model.BuildingName) </h1>
+
+<div>
+    <h4>Building</h4>
+    <hr />
+    <dl class="row">
+        <div class="form-group row">
+            <label asp-for="ID" class="col-sm-2 col-form-label"></label>
+            @Html.DisplayFor(model => model.ID)
+        </div>
+        <div class="form-group row">
+            <label asp-for="BuildingName" class="col-sm-2 col-form-label"></label>
+            @Html.DisplayFor(model => model.BuildingName)
+        </div>
+
+        <div class="form-group row">
+            <label asp-for="BuildingType" class="col-sm-2 col-form-label"></label>
+            @Html.DisplayFor(model => model.BuildingType)
+        </div>
+
+    </dl>
+
+    <a asp-action="Index" asp-controller="rooms" class="btn btn-secondary">Back</a>
+</div>

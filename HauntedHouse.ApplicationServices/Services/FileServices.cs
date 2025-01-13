@@ -49,6 +49,28 @@ namespace HauntedHouse.ApplicationServices.Services
                 }
             }
         }
+        public void UploadFilesToDatabase(RoomDto dto, Room domain)
+        {
+            if (dto.Files != null && dto.Files.Count > 0)
+            {
+                foreach (var image in dto.Files)
+                {
+                    using (var target = new MemoryStream())
+                    {
+                        FileToDatabase files = new FileToDatabase()
+                        {
+                            ID = Guid.NewGuid(),
+                            ImageTitle = image.FileName,
+                        };
+
+                        image.CopyTo(target);
+                        files.ImageData = target.ToArray();
+                        _context.FileToDatabase.Add(files);
+
+                    }
+                }
+            }
+        }
 
         public async Task<FileToDatabase> RemoveImageFromDatabase(FileToDatabaseDto dto)
         {

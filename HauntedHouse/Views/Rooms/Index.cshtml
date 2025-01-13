@@ -1,0 +1,76 @@
+﻿@model IEnumerable<HauntedHouse.Models.Rooms.RoomIndexViewModel>
+
+@{
+    int rowNumber = 1;
+}
+<div>
+    <a asp-action="Create" asp-controller="Rooms" class="btn btn-primary">Create new Room</a>
+</div>
+<div class="h1">Your Room:</div>
+<form method="post">
+    <table class="table table-hover" id="tableWH">
+        <thead>
+            @if (!Model.Any())
+            {
+                <tr>
+                    <th scope="col" colspan="4" class="TColor">
+                        <span>does not have any Room yet.</span>
+                    </th>
+                </tr>
+            }
+        </thead>
+        <tbody>
+            @if (!Model.Any())
+            {
+                <table class="HIT">
+                    <div>Room</div>
+                    <tr><td colspan="2">RoomName</td></tr>
+                    <tr>
+                        <td colspan="2">
+                            <img src="~/lib/gamesset/image/Rooms/Deafult.png" />
+                        </td>
+                    </tr>
+                    <tr><td>RoomType</td></tr>
+                </table>
+                rowNumber++;
+            }
+            else
+            {
+                @foreach (var room in Model)
+                {
+                <td>
+                    <table class="HIT">
+                        <div>Room</div>
+                        <tr class="TColor"><td colspan="2">@room.RoomName</td></tr>
+                        <tr class="TColor">
+                            <td colspan="2">
+                                    @if (room.Image == null || !room.Image.Any())
+                                    {
+                                        <img src="~/lib/gamesset/image/premadehunters/NotImplementedImage.png" alt="Default Image" class="card-img-top" />
+                                    }
+                                    else
+                                    {
+                                        @foreach (var Image in room.Image)
+                                        {
+                                        <partial name="_ImageIndex" model="Image" />
+                                        }
+                                    }
+                            </td>
+                        </tr>
+                        <tr class="TColor"><td>@room.RoomType</td></tr>
+                    </table>
+                    <div class="Action-btn">
+                        Admin Actions
+                        <br />
+                        <a asp-action="details" asp-controller="Rooms" asp-route-id="@room.ID" class="btn btn-info">Details</a>
+                        <a asp-action="update" asp-controller="Rooms" asp-route-id="@room.ID" class="btn btn-info">Configure</a>
+                        <br />
+                        <a asp-action="delete" asp-controller="Rooms" asp-route-id="@room.ID" class="btn btn-info">Delete</a>
+                    </div>
+                </td>
+                    rowNumber++;
+                }
+            }
+        </tbody>
+    </table>
+</form>

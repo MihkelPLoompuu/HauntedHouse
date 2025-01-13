@@ -8,10 +8,11 @@ using System.Threading.Tasks;
 
 namespace HauntedHouse.Core.ServiceInterface
 {
-    public interface IFileServices
+    public interface IRoomsServices
     {
-        void UploadFilesToDatabase(HunterDto dto, Hunter domain);
-        void UploadFilesToDatabase(RoomDto dto, Room domain);
-        Task<FileToDatabase> RemoveImageFromDatabase(FileToDatabaseDto dto);
+        Task<Room> DetailsAsync(Guid id);
+        Task<Room> Delete(Guid id);
+        Task<Room> Update(RoomDto dto);
+        Task<Room> Create(RoomDto dto);
     }
 }
