@@ -17,7 +17,6 @@ namespace HauntedHouse.Controllers
         {
             return View();
         }
-
         [HttpPost]
         public IActionResult SendEmail(EmailViewModel viewModel)
         {

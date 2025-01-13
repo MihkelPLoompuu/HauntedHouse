@@ -1,0 +1,27 @@
+﻿using HauntedHouse.Core.Domain;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace HauntedHouse.Core.Dto
+{
+    public class PlayerProfileDto
+    {
+        public Guid ID { get; set; }
+        public Guid ApplicationUserID { get; set; } 
+        public string ScreenName { get; set; }
+        public int HunterCredits { get; set; }
+        public List<HunterOwnership> MyHunter { get; set; }
+        public int Victories { get; set; }
+        public int MyProperty { get; set; }
+        public string? MyBuilding { get; set; } 
+        public ProfileStatus CurrentStatus { get; set; }
+        public bool ProfileType { get; set; }
+        public DateTime ProfileCreatedAt { get; set; }
+        public DateTime ProfileModifiedAt { get; set; }
+        public DateTime ProfileAttributedToAnAccountUserAt { get; set; }
+        public DateTime ProfileStatusLastChangedAt { get; set; }
+    }
+}
