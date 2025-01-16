@@ -204,7 +204,7 @@ namespace HauntedHouse.Controllers
                     EmailTokenDto newsignup = new();
                     newsignup.Token = token;
                     newsignup.Body = $"Thank you for signing up, klikka här:  {confirmationLink}";
-                    newsignup.Subject = "GalacticTitans Register";
+                    newsignup.Subject = "Register";
                     newsignup.To = user.Email;
 
                     _emailServices.SendEmailToken(newsignup, token);
