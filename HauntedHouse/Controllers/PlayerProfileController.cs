@@ -16,7 +16,6 @@ namespace HauntedHouse.Controllers
             _context = context;
         }
         [HttpGet]
-        [HttpGet]
         public async Task<IActionResult> Index()
         {
             return View(_context.PlayerProfiles.OrderByDescending(x => x.ScreenName));
