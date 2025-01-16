@@ -1,4 +1,5 @@
 ﻿using HauntedHouse.Core.Domain;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -8,11 +9,12 @@ using System.Threading.Tasks;
 
 namespace HauntedHouse.Data
 {
-    public class HauntedHouseContext : DbContext
+    public class HauntedHouseContext : IdentityDbContext<ApplicationUser>
     {
         public HauntedHouseContext(DbContextOptions<HauntedHouseContext> options) : base(options) { }
         public DbSet<Hunter> Hunters { get; set; }
         public DbSet<Room> Rooms { get; set; }
+        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
         public DbSet<Building> Buildings { get; set; }
         public DbSet<FileToDatabase> FileToDatabase { get; set; }
         public DbSet<PlayerProfile> PlayerProfiles { get; set; }

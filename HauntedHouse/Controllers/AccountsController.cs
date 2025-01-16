@@ -205,7 +205,7 @@ namespace HauntedHouse.Controllers
 
                     EmailTokenDto newsignup = new();
                     newsignup.Token = token;
-                    newsignup.Body = $"Thank you for signing up, klikka här:  {confirmationLink}";
+                    newsignup.Body = $"Thank you for signing up, klikka siia:  {confirmationLink}";
                     newsignup.Subject = "HauntedHouse Register";
                     newsignup.To = user.Email;
 
@@ -214,7 +214,8 @@ namespace HauntedHouse.Controllers
                     {
                         return RedirectToAction("ListUsers", "Administrations");
                     }
-
+                    return RedirectToAction("NewProfile", "PlayerProfiles");
+                    /*
                     List<string> errordatas =
                         [
                         "Area", "Accounts",
@@ -228,6 +229,7 @@ namespace HauntedHouse.Controllers
                     ViewBag.ErrorMessage = "Before you can log in, please confirm email from the link" +
                         "\nwe have emailed to your email address.";
                     return View("~/Views/Shared/Error.cshtml", new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+                    */
                 }
                 foreach (var error in result.Errors)
                 {
