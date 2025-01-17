@@ -1,4 +1,6 @@
-﻿using System;
+﻿using HauntedHouse.Core.Domain;
+using HauntedHouse.Core.Dto;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +10,6 @@ namespace HauntedHouse.Core.ServiceInterface
 {
     public interface IBuildingsServices
     {
+        Task<Building> Create(BuildingDto dto);
     }
 }
