@@ -7,11 +7,10 @@ using System.Diagnostics;
 
 namespace HauntedHouse.Controllers
 {
-    public class PlayerProfileController : Controller
+    public class PlayerProfilesController : Controller
     {
         private readonly HauntedHouseContext _context;
-
-        public PlayerProfileController(HauntedHouseContext context)
+        public PlayerProfilesController(HauntedHouseContext context)
         {
             _context = context;
         }
@@ -24,6 +23,7 @@ namespace HauntedHouse.Controllers
         [HttpGet]
         public async Task<IActionResult> NewProfile()
         {
+
             return View();
         }
 
@@ -31,16 +31,25 @@ namespace HauntedHouse.Controllers
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public async Task<IActionResult> NewProfile(PlayerProfileDto dto)
         {
-            if (dto.ApplicationUserID == null)
+            string userid = TempData["NewUserID"].ToString();
+            //if (ViewData["NewUserID"] == null)
+            if (userid == null)
             {
+                List<string> errordatas =
+                        [
+                        "Area", "Accounts",
+                        "Issue", "Failure",
+                        "StatusMessage", "No user id found"
+                        ];
+                ViewBag.ErrorDatas = errordatas;
                 return View("~/Views/Shared/Error.cshtml", new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
             }
 
             var newprofile = new PlayerProfile()
             {
                 ID = dto.ID,
-                ApplicationUserID = dto.ApplicationUserID,
-                ScreenName = "",
+                ApplicationUserID = TempData["NewUserID"].ToString(),
+                ScreenName = dto.ScreenName,
                 HunterCredits = 100,
                 Victories = 0,
                 CurrentStatus = ProfileStatus.Active,
@@ -51,10 +60,19 @@ namespace HauntedHouse.Controllers
                 ProfileModifiedAt = DateTime.UtcNow,
             };
             var result = await _context.PlayerProfiles.AddAsync(newprofile);
-            if (result != null)
+            await _context.SaveChangesAsync();
+            if (result == null)
             {
-
-                return View("Index");
+                List<string> errordatas =
+                       [
+                       "Area", "Accounts",
+                       "Issue", "Failure",
+                       "StatusMessage", "Creation of Player profile is unsuccessful. \nPlease contact an Administrator.",
+                       "UserID", $"{newprofile.ApplicationUserID}",
+                       "PlayerProfileID", $"{newprofile.ID}"
+                       ];
+                ViewBag.ErrorDatas = errordatas;
+                return View("~/Views/Shared/Error.cshtml", new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
             }
 
             return View("~/Views/Home/Index.cshtml");

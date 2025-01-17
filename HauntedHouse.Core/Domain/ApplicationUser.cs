@@ -11,7 +11,7 @@ namespace HauntedHouse.Core.Domain
     {
         public string City { get; set; }
 
-        public int PlayerProfileID { get; set; }
+        //public Guid PlayerProfileID { get; set; }
 
     }
 }
