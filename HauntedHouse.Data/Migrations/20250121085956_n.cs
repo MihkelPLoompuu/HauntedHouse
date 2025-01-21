@@ -6,43 +6,146 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace HauntedHouse.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class Identitycontect : Migration
+    public partial class n : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropPrimaryKey(
-                name: "PK_IdentityRoles",
-                table: "IdentityRoles");
+            migrationBuilder.CreateTable(
+                name: "AspNetRoles",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    NormalizedName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetRoles", x => x.Id);
+                });
 
-            migrationBuilder.RenameTable(
-                name: "IdentityRoles",
-                newName: "AspNetRoles");
+            migrationBuilder.CreateTable(
+                name: "AspNetUsers",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    City = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PlayerProfileID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    NormalizedEmail = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    EmailConfirmed = table.Column<bool>(type: "bit", nullable: false),
+                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SecurityStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhoneNumberConfirmed = table.Column<bool>(type: "bit", nullable: false),
+                    TwoFactorEnabled = table.Column<bool>(type: "bit", nullable: false),
+                    LockoutEnd = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    LockoutEnabled = table.Column<bool>(type: "bit", nullable: false),
+                    AccessFailedCount = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
 
-            migrationBuilder.AlterColumn<string>(
-                name: "NormalizedName",
-                table: "AspNetRoles",
-                type: "nvarchar(256)",
-                maxLength: 256,
-                nullable: true,
-                oldClrType: typeof(string),
-                oldType: "nvarchar(max)",
-                oldNullable: true);
+            migrationBuilder.CreateTable(
+                name: "Buildings",
+                columns: table => new
+                {
+                    ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    BuildingName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    BuildingType = table.Column<int>(type: "int", nullable: false),
+                    RoomIDs = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Buildings", x => x.ID);
+                });
 
-            migrationBuilder.AlterColumn<string>(
-                name: "Name",
-                table: "AspNetRoles",
-                type: "nvarchar(256)",
-                maxLength: 256,
-                nullable: true,
-                oldClrType: typeof(string),
-                oldType: "nvarchar(max)",
-                oldNullable: true);
+            migrationBuilder.CreateTable(
+                name: "FileToDatabase",
+                columns: table => new
+                {
+                    ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ImageTitle = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ImageData = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
+                    HunterID = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    RoomID = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FileToDatabase", x => x.ID);
+                });
 
-            migrationBuilder.AddPrimaryKey(
-                name: "PK_AspNetRoles",
-                table: "AspNetRoles",
-                column: "Id");
+            migrationBuilder.CreateTable(
+                name: "Hunters",
+                columns: table => new
+                {
+                    ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    HunterName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    HunterHealth = table.Column<int>(type: "int", nullable: false),
+                    HunterXP = table.Column<int>(type: "int", nullable: false),
+                    HunterXPNextLevel = table.Column<int>(type: "int", nullable: false),
+                    HunterLevel = table.Column<int>(type: "int", nullable: false),
+                    HunterStatus = table.Column<int>(type: "int", nullable: false),
+                    PrimaryAttackPower = table.Column<int>(type: "int", nullable: false),
+                    PrimaryAttackName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    SecondaryAttackPower = table.Column<int>(type: "int", nullable: false),
+                    SecondaryAttackName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    SpecialAttackPower = table.Column<int>(type: "int", nullable: false),
+                    SpecialAttackName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Hunters", x => x.ID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PlayerProfiles",
+                columns: table => new
+                {
+                    ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ApplicationUserID = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ScreenName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    HunterCredits = table.Column<int>(type: "int", nullable: false),
+                    Victories = table.Column<int>(type: "int", nullable: false),
+                    MyProperty = table.Column<int>(type: "int", nullable: false),
+                    MyBuildings = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CurrentStatus = table.Column<int>(type: "int", nullable: false),
+                    ProfileType = table.Column<bool>(type: "bit", nullable: false),
+                    ProfileCreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ProfileModifiedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ProfileAttributedToAnAccountUserAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ProfileStatusLastChangedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PlayerProfiles", x => x.ID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Rooms",
+                columns: table => new
+                {
+                    ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    RoomName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    RoomType = table.Column<int>(type: "int", nullable: false),
+                    BuildingID = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Rooms", x => x.ID);
+                });
 
             migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
@@ -63,32 +166,6 @@ namespace HauntedHouse.Data.Migrations
                         principalTable: "AspNetRoles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AspNetUsers",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    City = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    NormalizedEmail = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    EmailConfirmed = table.Column<bool>(type: "bit", nullable: false),
-                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    SecurityStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PhoneNumberConfirmed = table.Column<bool>(type: "bit", nullable: false),
-                    TwoFactorEnabled = table.Column<bool>(type: "bit", nullable: false),
-                    LockoutEnd = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    LockoutEnabled = table.Column<bool>(type: "bit", nullable: false),
-                    AccessFailedCount = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AspNetUsers", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -177,16 +254,16 @@ namespace HauntedHouse.Data.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_AspNetRoleClaims_RoleId",
+                table: "AspNetRoleClaims",
+                column: "RoleId");
+
+            migrationBuilder.CreateIndex(
                 name: "RoleNameIndex",
                 table: "AspNetRoles",
                 column: "NormalizedName",
                 unique: true,
                 filter: "[NormalizedName] IS NOT NULL");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AspNetRoleClaims_RoleId",
-                table: "AspNetRoleClaims",
-                column: "RoleId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetUserClaims_UserId",
@@ -235,44 +312,25 @@ namespace HauntedHouse.Data.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Buildings");
+
+            migrationBuilder.DropTable(
+                name: "FileToDatabase");
+
+            migrationBuilder.DropTable(
+                name: "Hunters");
+
+            migrationBuilder.DropTable(
+                name: "PlayerProfiles");
+
+            migrationBuilder.DropTable(
+                name: "Rooms");
+
+            migrationBuilder.DropTable(
+                name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
                 name: "AspNetUsers");
-
-            migrationBuilder.DropPrimaryKey(
-                name: "PK_AspNetRoles",
-                table: "AspNetRoles");
-
-            migrationBuilder.DropIndex(
-                name: "RoleNameIndex",
-                table: "AspNetRoles");
-
-            migrationBuilder.RenameTable(
-                name: "AspNetRoles",
-                newName: "IdentityRoles");
-
-            migrationBuilder.AlterColumn<string>(
-                name: "NormalizedName",
-                table: "IdentityRoles",
-                type: "nvarchar(max)",
-                nullable: true,
-                oldClrType: typeof(string),
-                oldType: "nvarchar(256)",
-                oldMaxLength: 256,
-                oldNullable: true);
-
-            migrationBuilder.AlterColumn<string>(
-                name: "Name",
-                table: "IdentityRoles",
-                type: "nvarchar(max)",
-                nullable: true,
-                oldClrType: typeof(string),
-                oldType: "nvarchar(256)",
-                oldMaxLength: 256,
-                oldNullable: true);
-
-            migrationBuilder.AddPrimaryKey(
-                name: "PK_IdentityRoles",
-                table: "IdentityRoles",
-                column: "Id");
         }
     }
 }

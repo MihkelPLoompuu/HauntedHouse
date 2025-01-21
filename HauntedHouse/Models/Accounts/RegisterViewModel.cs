@@ -15,5 +15,6 @@ namespace HauntedHouse.Models.Accounts
         [Compare("Password", ErrorMessage ="Password and its confirmation do not match. Plase try agan")]
         public string ConfirmPassword { get; set; }
         public string City { get; set; }
+        public bool ProfileType { get; set; } //true = admin, false =player
     }
 }

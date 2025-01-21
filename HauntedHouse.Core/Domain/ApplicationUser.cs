@@ -11,7 +11,8 @@ namespace HauntedHouse.Core.Domain
     {
         public string City { get; set; }
 
-        //public Guid PlayerProfileID { get; set; }
+        public Guid PlayerProfileID { get; set; }
+        public bool ProfileType { get; set; } //true = admin, false = player
 
     }
 }

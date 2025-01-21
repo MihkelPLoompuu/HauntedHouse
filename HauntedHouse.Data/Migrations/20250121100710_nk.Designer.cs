@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HauntedHouse.Data.Migrations
 {
     [DbContext(typeof(HauntedHouseContext))]
-    [Migration("20241129110048_Identitycontect")]
-    partial class Identitycontect
+    [Migration("20250121100710_nk")]
+    partial class nk
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -71,6 +71,12 @@ namespace HauntedHouse.Data.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<Guid>("PlayerProfileID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("ProfileType")
+                        .HasColumnType("bit");
+
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
@@ -94,6 +100,34 @@ namespace HauntedHouse.Data.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
+            modelBuilder.Entity("HauntedHouse.Core.Domain.Building", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("BuildingName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("BuildingType")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("RoomIDs")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Buildings");
+                });
+
             modelBuilder.Entity("HauntedHouse.Core.Domain.FileToDatabase", b =>
                 {
                     b.Property<Guid>("ID")
@@ -110,6 +144,9 @@ namespace HauntedHouse.Data.Migrations
                     b.Property<string>("ImageTitle")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("RoomID")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("ID");
 
@@ -171,6 +208,82 @@ namespace HauntedHouse.Data.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("Hunters");
+                });
+
+            modelBuilder.Entity("HauntedHouse.Core.Domain.PlayerProfile", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ApplicationUserID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("CurrentStatus")
+                        .HasColumnType("int");
+
+                    b.Property<int>("HunterCredits")
+                        .HasColumnType("int");
+
+                    b.Property<string>("MyBuildings")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("MyProperty")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("ProfileAttributedToAnAccountUserAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("ProfileCreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("ProfileModifiedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("ProfileStatusLastChangedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("ProfileType")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("ScreenName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Victories")
+                        .HasColumnType("int");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("PlayerProfiles");
+                });
+
+            modelBuilder.Entity("HauntedHouse.Core.Domain.Room", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("BuildingID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("RoomName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("RoomType")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Rooms");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

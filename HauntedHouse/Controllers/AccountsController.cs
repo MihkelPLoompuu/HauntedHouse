@@ -195,6 +195,7 @@ namespace HauntedHouse.Controllers
                     UserName = model.Email,
                     Email = model.Email,
                     City = model.City,
+                    ProfileType = model.ProfileType
                 };
                 var result = await _userManager.CreateAsync(user, model.Password);
                 TempData["NewUserID"] = user.Id;
