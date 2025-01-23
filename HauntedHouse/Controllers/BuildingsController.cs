@@ -40,7 +40,7 @@ namespace HauntedHouse.Controllers
         }
         [HttpPost, ActionName("Create")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(BuildingCreateViewModel vm)
+        public async Task<IActionResult> Create(BuildingCreateViewModel vm, RoomIndexViewModel rm)
         {
             var dto = new BuildingDto()
             {
