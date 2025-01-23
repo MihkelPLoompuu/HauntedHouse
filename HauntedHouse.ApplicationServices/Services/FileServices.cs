@@ -61,6 +61,7 @@ namespace HauntedHouse.ApplicationServices.Services
                         {
                             ID = Guid.NewGuid(),
                             ImageTitle = image.FileName,
+                            RoomID = domain.ID
                         };
 
                         image.CopyTo(target);
