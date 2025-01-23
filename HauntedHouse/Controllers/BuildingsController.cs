@@ -13,10 +13,12 @@ namespace HauntedHouse.Controllers
     public class BuildingsController : Controller
     {
         private readonly HauntedHouseContext _context;
+        private readonly IBuildingsServices _services;
 
-        public BuildingsController(HauntedHouseContext context)
+        public BuildingsController(HauntedHouseContext context, IBuildingsServices services)
         {
             _context = context;
+            _services = services;
         }
         public IActionResult Index()
         {
@@ -45,8 +47,14 @@ namespace HauntedHouse.Controllers
                 BuildingName = vm.BuildingName,
                 BuildingType = vm.BuildingType,
                 CreatedAt = DateTime.Now,
-                UpdatedAt = DateTime.Now,              
+                UpdatedAt = DateTime.Now
             };
+            var result = await _services.Create(dto);
+
+            if (result == null)
+            {
+                return RedirectToAction("Index");
+            }
             return RedirectToAction("Index", vm);
         }
     }
