@@ -24,7 +24,7 @@ namespace HauntedHouse.ApplicationServices.Services
         {
             var email = new MimeMessage();
 
-            _configuration.GetSection("EmailUserName").Value = "HauntedHouse";
+            _configuration.GetSection("EmailUserName").Value = "Mihkelploompuu@gmail.com";
             _configuration.GetSection("EmailHost").Value = "smtp.gmail.com";
             _configuration.GetSection("EmailPassword").Value = "ptqb zcmz nwgh kost";
 
@@ -50,7 +50,7 @@ namespace HauntedHouse.ApplicationServices.Services
             dto.Token = token;
             var email = new MimeMessage();
 
-            _configuration.GetSection("EmailUserName").Value = "HauntedHouse";
+            _configuration.GetSection("EmailUserName").Value = "Mihkelploompuu@gmail.com";
             _configuration.GetSection("EmailHost").Value = "smtp.gmail.com";
             _configuration.GetSection("EmailPassword").Value = "ptqb zcmz nwgh kost";
 
