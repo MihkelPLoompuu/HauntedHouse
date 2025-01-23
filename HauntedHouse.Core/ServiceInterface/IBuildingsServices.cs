@@ -10,6 +10,6 @@ namespace HauntedHouse.Core.ServiceInterface
 {
     public interface IBuildingsServices
     {
-        Task<Building> Create(BuildingDto dto);
+        Task<Building> Create(BuildingDto dto, List<Room> rooms);
     }
 }

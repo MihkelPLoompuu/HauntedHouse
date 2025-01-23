@@ -27,24 +27,36 @@ namespace HauntedHouse.ApplicationServices.Services
                 .FirstOrDefaultAsync(x => x.ID == id);
             return result;
         }
-        public async Task<Building> Create(BuildingDto dto)
+        public async Task<Building> Create(BuildingDto dto, List<Room> rooms)
         {
-            Building room = new Building();
+            Building newBuilding = new();
 
-            room.ID = Guid.NewGuid();
+            newBuilding.ID = Guid.NewGuid();
 
-            //set by user
-            room.BuildingName = dto.BuildingName;
-            room.BuildingType = dto.BuildingType;
+            newBuilding.BuildingName = dto.BuildingName;
 
-            //set for db
-            room.CreatedAt = DateTime.Now;
-            room.UpdatedAt = DateTime.Now;
+            newBuilding.CreatedAt = DateTime.Now;
+            newBuilding.UpdatedAt = DateTime.Now;
+            newBuilding.RoomIDs = RoomToID(roomsInBuilding);
 
-            await _context.Buildings.AddAsync(room);
+            await _context.SolarSystems.AddAsync(newBuilding);
             await _context.SaveChangesAsync();
 
-            return room;
+            foreach (var planet in roomsInBuilding)
+            {
+                _context.Rooms.Attach(planet);
+                planet.BuildingId = newBuilding.ID.ToString();
+                planet.ModifiedAt = DateTime.Now;
+
+                _context.Entry(planet).Property(p => p.SolarSystemID).IsModified = true;
+                _context.Entry(planet).Property(p => p.ModifiedAt).IsModified = true;
+
+
+
+                await _context.SaveChangesAsync();
+            }
+
+            return newBuilding;
         }
     }
 }
