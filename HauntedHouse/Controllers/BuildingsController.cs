@@ -52,6 +52,7 @@ namespace HauntedHouse.Controllers
             ViewData["allRooms"] = new SelectList(allRooms, "ID", "RoomName", allRooms);
             return View("BuildingCreate", vm);
         }
+        /*
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(BuildingCreateViewModel vm, List<string> userHasSelected, List<Rooms> rooms)
@@ -108,5 +109,6 @@ namespace HauntedHouse.Controllers
             }
             return result;
         }
+        */
     }
 }

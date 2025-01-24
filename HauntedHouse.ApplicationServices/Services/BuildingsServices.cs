@@ -27,6 +27,7 @@ namespace HauntedHouse.ApplicationServices.Services
                 .FirstOrDefaultAsync(x => x.ID == id);
             return result;
         }
+        /*
         public async Task<Building> Create(BuildingDto dto, List<Room> rooms)
         {
             Building newBuilding = new();
@@ -58,5 +59,6 @@ namespace HauntedHouse.ApplicationServices.Services
 
             return newBuilding;
         }
+        */    
     }
 }
