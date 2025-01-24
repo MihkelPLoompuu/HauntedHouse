@@ -32,6 +32,7 @@ namespace HauntedHouse.ApplicationServices.Services
                 UserName = dto.Username,
                 Email = dto.Email,
                 City = dto.City,
+                ProfileType = false
             };
             var result = await _userManager.CreateAsync(user, dto.Password);
             if (result.Succeeded)

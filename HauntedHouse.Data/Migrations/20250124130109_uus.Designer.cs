@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HauntedHouse.Data.Migrations
 {
     [DbContext(typeof(HauntedHouseContext))]
-    [Migration("20250123134343_uus")]
+    [Migration("20250124130109_uus")]
     partial class uus
     {
         /// <inheritdoc />

@@ -10,5 +10,6 @@ namespace HauntedHouse.Core.ServiceInterface
     public interface IPlayerProfilesServices
     {
         Task<PlayerProfile> Create(string useridfor);
+        Task<PlayerProfile> DetailsAsync(Guid id);
     }
 }
