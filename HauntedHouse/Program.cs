@@ -14,6 +14,7 @@ namespace HauntedHouse
             // Add services to the container.
             builder.Services.AddControllersWithViews();
             builder.Services.AddScoped<IRoomsServices, RoomsServices>();
+            builder.Services.AddScoped<IBuildingsServices, BuildingsServices>();
             builder.Services.AddScoped<IHuntersServices, HuntersServices>();
             builder.Services.AddScoped<IFileServices, FileServices>();
             builder.Services.AddDbContext<HauntedHouseContext>(
