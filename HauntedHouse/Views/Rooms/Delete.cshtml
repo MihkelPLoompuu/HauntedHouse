@@ -17,6 +17,8 @@
         <div id="imagediv">
             @foreach (var image in Model.Image)
             {
+                <label asp-for="Image"></label>
+
                 <partial name="_Images" model="image" />
             }
         </div>

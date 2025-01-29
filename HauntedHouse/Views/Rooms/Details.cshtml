@@ -14,10 +14,10 @@
             <label asp-for="RoomName" class="col-sm-2 col-form-label"></label>
             @Html.DisplayFor(model => model.RoomName)
         </div>
-        <div id="imagediv">
+        <div id="imagediv">           
             @foreach (var image in Model.Image)
             {
-                <partial name="_Images" model="image" />
+                <label asp-for="Image"></label><partial name="_Images" model="image" />
             }
         </div>
 

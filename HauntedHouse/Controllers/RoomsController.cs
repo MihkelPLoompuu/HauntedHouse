@@ -57,7 +57,7 @@ namespace HauntedHouse.Controllers
             var dto = new RoomDto()
             {
                 RoomName = vm.RoomName,
-                RoomType =  vm.RoomType,
+                RoomType = vm.RoomType,
                 BuildingID = vm.BuildingID,
                 CreatedAt = DateTime.Now,
                 UpdatedAt = DateTime.Now,
@@ -89,9 +89,10 @@ namespace HauntedHouse.Controllers
             if (room == null) { return NotFound(); };
 
             var images = await _context.FileToDatabase
-                .Where(x => x.ID == id)
+                .Where(x => x.RoomID == id)
                 .Select(y => new RoomImageViewModel
                 {
+                    RoomID = y.ID,
                     ImageID = y.ID,
                     ImageData = y.ImageData,
                     ImageTitle = y.ImageTitle,
@@ -173,9 +174,10 @@ namespace HauntedHouse.Controllers
             if (room == null) { return NotFound(); };
 
             var images = await _context.FileToDatabase
-                .Where(x => x.ID == id)
+                .Where(x => x.RoomID == id)
                 .Select(y => new RoomImageViewModel
                 {
+                    RoomID = y.ID,
                     ImageID = y.ID,
                     ImageData = y.ImageData,
                     ImageTitle = y.ImageTitle,
@@ -184,7 +186,7 @@ namespace HauntedHouse.Controllers
             var vm = new RoomDeleteViewModel();
 
             vm.ID = room.ID;
-            vm.RoomName = room.RoomName; 
+            vm.RoomName = room.RoomName;
             vm.RoomType = room.RoomType;
             vm.CreatedAt = room.CreatedAt;
             vm.UpdatedAt = DateTime.Now;
@@ -200,6 +202,17 @@ namespace HauntedHouse.Controllers
 
             if (hunterToDelete == null) { return RedirectToAction("Index"); }
 
+            return RedirectToAction("Index");
+        }
+        [HttpPost]
+        public async Task<IActionResult> RemoveImage(Guid id)
+        {
+            var dto = new FileToDatabaseDto()
+            {
+                ID = id
+            };
+            var image = await _fileServices.RemoveImageFromDatabase(dto);
+            if (image == null) { return RedirectToAction("Index"); }
             return RedirectToAction("Index");
         }
     }
